@@ -129,7 +129,7 @@ details summary{cursor:pointer;min-height:40px;padding-top:8px}
 
 /* ---- v10 : pas à pas, direct, graphiques, alertes, Terminale ---- */
 body[data-cy="T"]{--acc:#4f46e5;--acc2:#4338ca;--soft:#eef2ff;--sh-hi:0 10px 30px -10px rgba(79,70,229,.45)}
-@media (prefers-color-scheme:dark){body[data-cy="T"]{--acc:#818cf8;--acc2:#6366f1;--soft:#1e1b4b}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body[data-cy="T"]{--acc:#818cf8;--acc2:#6366f1;--soft:#1e1b4b}}
 body[data-cy="T"] .out.hi,body[data-cy="T"] .zs .z4{background:linear-gradient(135deg,#4338ca,#6366f1)}
 body[data-cy="T"] .seg.big .chip.on{box-shadow:0 6px 16px -8px rgba(79,70,229,.8)}
 .bincard.cyT{box-shadow:var(--sh),inset 4px 0 0 #6366f1}
@@ -174,7 +174,7 @@ body[data-cy="T"] header{background:linear-gradient(135deg,#3730a3,#4f46e5 60%,#
 :root{--tartan:#c2412d;--tartan2:#a8361f;--ink:#12222b;--lagoon:#0e8c80;--indigo:#4b44d8}
 body{background:var(--bg)}
 header{background:color-mix(in srgb,var(--card) 88%,transparent);color:var(--ink);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:inset 0 -4px 0 var(--tartan);border:0}
-@media (prefers-color-scheme:dark){header{color:var(--fg)}}
+:root[data-theme="dark"] header{color:var(--fg)}
 body[data-cy="S"] header{box-shadow:inset 0 -4px 0 var(--lagoon)}body[data-cy="T"] header{background:color-mix(in srgb,var(--card) 88%,transparent);box-shadow:inset 0 -4px 0 var(--indigo)}
 header button{background:transparent;color:inherit;border:1.5px solid var(--line);backdrop-filter:none;-webkit-backdrop-filter:none}
 header button:active{background:var(--bg2)}
@@ -237,6 +237,26 @@ header{padding-top:12px}
 .step.done .stepn{background:var(--acc2)}
 .step.done{box-shadow:var(--sh),inset 4px 0 0 var(--acc)}
 @media (max-width:560px){.steps{top:58px}.sbar a{height:26px;font-size:13px}.stepn{min-width:30px;height:30px;font-size:15px}}
+/* v11 : pictos, RPE, échauffement, pronostic, adapté, lisibilité extérieure */
+.ico{width:1.15em;height:1.15em;vertical-align:-.2em;display:inline-block;flex:none}
+.out.hi b{font-size:26px}.out b{font-variant-numeric:tabular-nums}
+.rpe{display:grid;grid-template-columns:repeat(11,1fr);gap:4px}.rpe .chip{min-width:0;padding:4px 0;font-size:16px}
+.rpe .chip.on.r0,.rpe .chip.on.r1,.rpe .chip.on.r2{background:#16a34a;border-color:#16a34a;color:#fff}.rpe .chip.on.r3,.rpe .chip.on.r4{background:#65a30d;border-color:#65a30d;color:#fff}
+.rpe .chip.on.r5,.rpe .chip.on.r6{background:#d97706;border-color:#d97706;color:#fff}.rpe .chip.on.r7,.rpe .chip.on.r8{background:#ea580c;border-color:#ea580c;color:#fff}.rpe .chip.on.r9,.rpe .chip.on.r10{background:#b91c1c;border-color:#b91c1c;color:#fff}
+.rpel{font-weight:700;margin:6px 0 10px}
+.seg.wc .chip{font-size:15px}
+.prono{background:var(--soft);border-radius:var(--r-sm);padding:8px 12px;margin:10px 0}.prono .stp{margin-bottom:4px}
+.adapt{box-shadow:var(--sh),inset 5px 0 0 #d97706}.adapt p{margin:0}
+@media (max-width:560px){.rpe{grid-template-columns:repeat(6,1fr)}}
+.sbar button{flex:1;height:30px;border:0;border-radius:8px;color:#fff;font:inherit;font-weight:900;font-style:italic;font-size:14px;background:rgba(255,255,255,.12);cursor:pointer}
+.sbar button.ok{background:#fff;color:var(--acc2)}.sbar button.cur{outline:3px solid #fff;outline-offset:-3px;background:rgba(0,0,0,.25);color:#fff}.sbar button.ok.cur{background:#fff;color:var(--acc2);outline-color:var(--ink)}
+.stepnav{display:flex;justify-content:space-between;gap:10px;margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
+@media (max-width:560px){.sbar button{height:28px;font-size:13px}}
+.todo{background:var(--track-soft);border-radius:var(--r-sm);padding:10px 12px;margin:8px 0}.todo p{margin:0 0 6px}
+.chbig{display:flex;flex-direction:column;align-items:center;border-radius:24px;padding:24px 12px;margin:12px 0;color:#fff;background:var(--tartan)}
+.chbig.rest{background:var(--lagoon)}.chbig.done,.chbig.pre{background:var(--ink)}
+.chbig span{font-size:22px;font-weight:800}.chbig b{font-size:min(28vw,150px);line-height:1;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+.il{display:inline}
 </style>
 </head>
 <body>
@@ -12649,7 +12669,7 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
 });</script><script>
 /* ===================== CARNET DEMI-FOND · cœur commun (élève + prof) · Seconde et Terminale ===================== */
 'use strict';
-const APP_VER=2, APP_VERSION='v10 · 12/10/2026', STORE='df2_carnet_v1', PSTORE='df2_prof_v1';
+const APP_VER=2, APP_VERSION='v11 · 12/10/2026', SCHEMA=3, STORE='df2_carnet_v1', PSTORE='df2_prof_v1';
 /* ---- calculs (identiques à l'outil de cycle) ---- */
 const R=x=>Math.floor(x+0.5);
 const tSec=(d,v)=>d*3.6/v, dist=(s,v)=>v/3.6*s;
@@ -12741,27 +12761,42 @@ function c3reg(c){const d=c3dist(c),h=c3half(c);if(d==null||h==null)return null;
 function p130real(p){if(!p)return null;const pr=num(p.proj),e=num(p.ec);if(pr==null||e==null)return null;return pr+e}
 const prevu=(dist_,pct,v)=>v?tSec(dist_,v*pct/100):null;
 
-/* ---- projets tenus d'une séance : [tenus, tentatives] ---- */
+/* ---- projets tenus d'une séance : [tenus, tentatives] ----
+   Un projet ne compte que s'il est AMBITIEUX : sinon un élève prudent tiendrait tout sans progresser.
+   _v = VMA effective, _ref = dernière distance réalisée au 1'30 (fournies par l'interface). */
+const AMB=0.95;
+function ambition(ty,d,a1){const v=num(d._v),ref=num(d._ref);
+  if(ty==='p130'){const pr=num(d[a1]&&d[a1].proj);if(pr==null)return true;const base=ref||(v?dist(90,v):null);return base==null||pr>=AMB*base}
+  if(ty==='c3'){const vv=num(d[a1]&&d[a1].v);if(vv==null||!v)return true;return vv>=AMB*dist(180,v)}
+  if(ty==='c500'){const pj=parseT(d[a1]&&d[a1].tp);if(pj==null||!v)return true;return pj<=tSec(500,v)/AMB}
+  return true}
 function tenus(sid,d){
   if(!d||d.st)return [0,0];let t=0,n=0;const add=ok=>{n++;if(ok)t++};
-  const s=SBY[sid],v=num(d._v),T=cyOfSid(sid)==='T';
+  const s=SBY[sid],v=num(d._v),T=cyOfSid(sid)==='T',ad=!!d.ad;          /* ad = pratique adaptée : tolérances élargies */
   s.blocks.forEach(b=>{const [ty,a1,a2,a3]=bk(b);
-    if(ty==='i36')(d.i36||[]).forEach(x=>{if(x)add(x==='P')});
-    if(ty==='i36m')(d.i36||[]).forEach(x=>{if(x)add(x==='P')});
-    if(ty==='al4')(d.al||[]).forEach(r=>{const a=num(r&&r.an),e=num(r&&r.re);if(a!=null&&e!=null)add(Math.abs(a-e)<=1)});
-    if(ty==='ct')(d.ct||[]).forEach(r=>{const a=num(r&&r.c),e=num(r&&r.r);if(a!=null&&e!=null)add(a===e)});
-    if(ty==='c3'){const c=d[a1];const vv=num(c&&c.v),dd=c3dist(c);if(vv!=null&&dd!=null)add(Math.abs(dd-vv)<=10)}
-    if(ty==='p130'){const p=d[a1];const e=num(p&&p.ec);if(e!=null){const z=T?zoneT(e):zoneS(e);add(T?z[0]>=3:z[0]>=2)}}
+    if(ty==='i36'||ty==='i36m')(d.i36||[]).forEach(x=>{if(x)add(x==='P')});
+    if(ty==='al4')(d.al||[]).forEach(r=>{const a=num(r&&r.an),e=num(r&&r.re);if(a!=null&&e!=null)add(Math.abs(a-e)<=(ad?2:1))});
+    if(ty==='ct')(d.ct||[]).forEach(r=>{const a=num(r&&r.c),e=num(r&&r.r);if(a!=null&&e!=null)add(Math.abs(a-e)<=(ad?1:0))});
+    if(ty==='c3'){const c=d[a1];const vv=num(c&&c.v),dd=c3dist(c);if(vv!=null&&dd!=null)add(Math.abs(dd-vv)<=(ad?20:10)&&ambition(ty,d,a1))}
+    if(ty==='p130'){const p=d[a1];const e=num(p&&p.ec);if(e!=null){const z=T?zoneT(e):zoneS(e);add((ad?z[0]>=(T?2:1):(T?z[0]>=3:z[0]>=2))&&ambition(ty,d,a1))}}
     if(ty==='at')((d.at&&d.at.r)||[]).forEach(x=>{if(x)add(x==='ok')});
-    if(ty==='ser')(d[a1]||[]).forEach((r,i)=>{const tr=parseT(r&&r.tr),row=a3[i];if(tr!=null&&row&&v)add(Math.abs(tr-prevu(row[0],row[1],v))<=2)});
-    if(ty==='tours')(d.tr||[]).forEach((r,i)=>{const tt=parseT(r&&r.t),vv=num(r&&r.v)||[8,10,12,14][i];if(tt!=null&&vv)add(Math.abs(tt-tSec(200,vv))<=2)});
-    if(ty==='i112')(d.c112||[]).forEach(x=>{const c=num(x);if(c!=null&&v)add(Math.abs(c-v*a1/100)<=1)});
-    if(ty==='c500'){const c=d[a1]||{};const tt=parseT(c.t),pj=parseT(c.tp);if(tt!=null&&pj!=null)add(Math.abs(tt-pj)<=2)}
+    if(ty==='ser')(d[a1]||[]).forEach((r,i)=>{const tr=parseT(r&&r.tr),row=a3[i];if(tr!=null&&row&&v)add(Math.abs(tr-prevu(row[0],row[1],v))<=(ad?4:2))});
+    if(ty==='tours')(d.tr||[]).forEach((r,i)=>{const tt=parseT(r&&r.t),vv=num(r&&r.v)||[8,10,12,14][i];if(tt!=null&&vv)add(Math.abs(tt-tSec(200,vv))<=(ad?4:2))});
+    if(ty==='i112')(d.c112||[]).forEach(x=>{const c=num(x);if(c!=null&&v)add(Math.abs(c-v*a1/100)<=(ad?2:1))});
+    if(ty==='c500'){const c=d[a1]||{};const tt=parseT(c.t),pj=parseT(c.tp);if(tt!=null&&pj!=null)add(Math.abs(tt-pj)<=(ad?4:2)&&ambition(ty,d,a1))}
     if(ty==='rel5'){const vv=parseT(d.rlv),tt=parseT(d.rlt);if(vv!=null&&tt!=null)add(Math.abs(tt-vv)<=30)}
-    if(ty==='real8')(d.r8||[]).forEach(r=>{const p=parseT(r&&r.p),x=parseT(r&&r.r);if(p!=null&&x!=null)add(Math.abs(p-x)<=2)});
+    if(ty==='real8')(d.r8||[]).forEach(r=>{const p=parseT(r&&r.p),x=parseT(r&&r.r);if(p!=null&&x!=null)add(Math.abs(p-x)<=(ad?4:2))});
   });
   return [t,n];
 }
+/* écart moyen entre prévu et réalisé : le vrai indicateur de « gérer son allure » (plus bas = mieux) */
+function ecartOf(sid,d){if(!d||d.st)return null;const s=SBY[sid];const m=[];
+  s.blocks.forEach(b=>{const [ty,a1]=bk(b);
+    if(ty==='p130'){const e=num(d[a1]&&d[a1].ec);if(e!=null)m.push(Math.abs(e))}
+    if(ty==='c3'){const c=d[a1];const vv=num(c&&c.v),dd=c3dist(c);if(vv!=null&&dd!=null)m.push(Math.abs(dd-vv)/2)}   /* 3' ramené à l'échelle du 1'30 */
+  });return m.length?m.reduce((a,x)=>a+x,0)/m.length:null}
+function ecartT(sid,d){if(!d||d.st)return null;const s=SBY[sid];const m=[];
+  s.blocks.forEach(b=>{const [ty,a1]=bk(b);if(ty==='c500'){const c=d[a1]||{};const t=parseT(c.t),p=parseT(c.tp);if(t!=null&&p!=null)m.push(Math.abs(t-p))}});return m.length?m.reduce((a,x)=>a+x,0)/m.length:null}
 function degreeOf(t,n){if(!n)return null;const r=t/n;return r>=0.75?4:r>=2/3-0.001?3:r>=1/3-0.001?2:1}
 const ST_TXT={abs:'absent',bl:'blessé / dispensé'};
 const WHY_TXT={abs:'binôme absent',bl:'binôme blessé ou dispensé',autre:'autre raison'};
@@ -12790,8 +12825,8 @@ const CUT=(s,n)=>String(s||'').slice(0,n);
 function slimSeance(d){
   if(!d)return {};const o=JSON.parse(JSON.stringify(d));
   if(o.bl){['reu','con','nx'].forEach(k=>{if(o.bl[k])o.bl[k]=CUT(o.bl[k],40)})}
-  ['aj','mot','rc','rc2','repw','pfw'].forEach(k=>{if(o[k])o[k]=CUT(o[k],40)});if(o.cx&&o.cx.n)o.cx.n=CUT(o.cx.n,30);
-  if(o.warm)o.warm=o.warm.map(x=>CUT(x,25));
+  ['aj','mot','rc','rc2','repw','pfw','wx'].forEach(k=>{if(o[k])o[k]=CUT(o[k],40)});if(o.cx&&o.cx.n)o.cx.n=CUT(o.cx.n,30);
+  if(o.warm)o.warm=o.warm.map(x=>CUT(x,25));delete o._ref;
   if(o.pe&&o.pe.why)o.pe.why=CUT(o.pe.why,40);
   if(o.mi){if(o.mi.th)o.mi.th=CUT(o.mi.th,30);if(o.mi.pb)o.mi.pb=CUT(o.mi.pb,30);if(o.mi.x)o.mi.x=o.mi.x.map(r=>r?{e:CUT(r.e,20),dd:CUT(r.dd,8),i:CUT(r.i,6),r:CUT(r.r,8),n:CUT(r.n,4)}:r)}
   ['c3','c3b'].forEach(k=>{if(o[k]&&o[k].lt)o[k].lt=o[k].lt.map(x=>R(x))});
@@ -12812,8 +12847,15 @@ function restorePayload(bin,runs){        /* runs : [{i,p,n,x,vm,se}] */
 function chunkPayload(str,size){const tag=Math.random().toString(36).slice(2,6);const n=Math.ceil(str.length/size);const out=[];
   for(let i=0;i<n;i++)out.push('DFP|'+tag+'|'+(i+1)+'/'+n+'|'+str.slice(i*size,(i+1)*size));return out}
 /* ===================== CARNET DEMI-FOND · Seconde & Terminale · interface ===================== */
-let DB=load(STORE,{binomes:[],code:'1275',opts:{}});if(DB.code==='2026')DB.code='1275';DB.opts=DB.opts||{};
-let PDB=load(PSTORE,{students:{},stars:{}});
+let DB=load(STORE,{binomes:[],code:'1275',opts:{}});
+/* migrations : chaque version sait relire les données des précédentes */
+function migrate(db){const from=db.schema||1;db.opts=db.opts||{};
+  if(from<2){if(db.code==='2026')db.code='1275';(db.binomes||[]).forEach(b=>{b.cy=b.cy||'S';b.sent=b.sent||{}})}
+  if(from<3){(db.binomes||[]).forEach(b=>b.runners.forEach(r=>{r.seances=r.seances||{}}))}
+  db.schema=SCHEMA;return db}
+DB=migrate(DB);
+let PDB=load(PSTORE,{students:{},stars:{}});PDB.schema=PDB.schema||SCHEMA;
+document.documentElement.dataset.theme=DB.opts.dark?'dark':'light';      /* sur la piste, au soleil : thème clair par défaut */
 let V={v:'home',cls:'',hcy:DB.opts.hcy||''};
 function load(k,def){try{const x=JSON.parse(localStorage.getItem(k));return x&&typeof x==='object'?Object.assign(def,x):def}catch(e){return def}}
 function save(){try{localStorage.setItem(STORE,JSON.stringify(DB))}catch(e){toast('Mémoire pleine : fais scanner tes QR par le prof.')}}
@@ -12822,8 +12864,8 @@ if(navigator.storage&&navigator.storage.persist){try{navigator.storage.persist()
 const $=s=>document.querySelector(s);
 const uid=()=>Math.random().toString(36).slice(2,7);
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2600)}
-function go(o){V=Object.assign({},V,o);render();window.scrollTo(0,0)}
-function modal(html){$('#modal-body').innerHTML=html;$('#modal').classList.add('on')}
+function go(o){V=Object.assign({},V,o);if(CH&&CH.run&&!(V.v==='prof'&&V.ptab==='chrono'))chStop();render();window.scrollTo(0,0)}
+function modal(html){$('#modal-body').innerHTML=icons(html);$('#modal').classList.add('on')}
 function closeModal(){$('#modal').classList.remove('on');stopScan();liveStop();if(RQ.h){clearInterval(RQ.h);RQ.h=null}}
 
 /* ---------- accès aux données ---------- */
@@ -12838,17 +12880,29 @@ const hasData=d=>!!d&&Object.keys(d).some(k=>k!=='_v');
 function saveS(){const b=curBin();if(b&&V.sid){b.mod=b.mod||{};b.mod[V.sid]=Date.now()}save()}
 /* VMA effective d'une séance (VMA du jour modifiée, sinon mesurée) et projets tenus calculés avec elle */
 function effV(run,sid){const d=run.seances&&run.seances[sid];return (d&&num(d.vj))||vmaOf(run,sid)}
-function tenR(run,sid){const d=run.seances&&run.seances[sid];if(!d)return [0,0];return tenus(sid,Object.assign({},d,{_v:effV(run,sid)||num(d._v)}))}
+function ctx(run,sid,d){return Object.assign({},d,{_v:effV(run,sid)||num(d&&d._v),_ref:lastReal(run,sid)})}
+function tenR(run,sid){const d=run.seances&&run.seances[sid];if(!d)return [0,0];return tenus(sid,ctx(run,sid,d))}
 function sessState(b,sid){const has=b.runners.some(r=>hasData(r.seances&&r.seances[sid]));const sent=b.sent&&b.sent[sid],mod=b.mod&&b.mod[sid];
   if(sent&&mod&&mod>sent+1500)return 'resend';if(sent)return 'sent';return has?'wip':''}
 
+/* ---------- pictogrammes (remplacent les émojis, même trait que le carnet papier) ---------- */
+const SV=(p)=>`<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const ICONS={'🎯':SV('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/>'),
+ '🧮':SV('<rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/>'),
+ '💡':SV('<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/>'),
+ '⏱':SV('<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5M19 6l1.5-1.5"/>'),
+ '✎':SV('<path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"/>'),
+ '📝':SV('<path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"/>'),
+ '📵':SV('<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14l6 6M20 14l-6 6"/>'),
+ '🚫':SV('<circle cx="12" cy="12" r="9"/><path d="M6 6l12 12"/>')};
+function icons(html){return html.split(/(<textarea[\s\S]*?<\/textarea>)/).map((p,i)=>i%2?p:p.replace(/(🎯|🧮|💡|⏱\uFE0F?|✎|📝|📵|🚫)([^<]*)/g,(m,e,rest)=>'<span class="il">'+(ICONS[e.replace(/\uFE0F/g,'')]||e)+rest+'</span>')).join('')}
 /* ---------- rendu général ---------- */
 function render(){
   const m=$('#main');const b=curBin();
   document.body.dataset.cy=V.v==='home'?(V.hcy||''):V.v==='new'?(V.hcy||'S'):V.v==='prof'?(V.pc&&classes().includes(V.pc)?clsCy(V.pc):'S'):cyOf(b);
   const views={home:homeView,new:newView,edit:editView,bin:binView,sess:sessView,cibles:ciblesView,prog:progView,prof:profView};
   document.body.classList.toggle('home',V.v==='home');
-  m.innerHTML=(views[V.v]||homeView)();
+  m.innerHTML=icons((views[V.v]||homeView)());
   $('#crumb').innerHTML=crumb();
 }
 function crumb(){
@@ -12905,13 +12959,17 @@ function binView(){
   const b=curBin();if(!b)return homeView();const L=curSessOf(b);
   const todo=L.filter(s=>['wip','resend'].includes(sessState(b,s.id)));
   return `<section class="card"><div class="row"><h2>${esc(b.runners[0].prenom)} & ${esc(b.runners[1].prenom)}</h2><span class="cls">${esc(b.classe)} · ${CYC[cyOf(b)].label}</span></div>
-  ${todo.length?`<p class="warn small">⚠ QR pas encore montré au prof : ${todo.map(s=>s.n).join(', ')}. Ouvre la séance et touche « Fin de séance ».</p>`:''}
+  ${todo.length?`<div class="todo"><p class="warn small">⚠ Pas encore envoyé au prof : ${todo.map(s=>s.n).join(', ')}.</p><div class="row wrap"><button class="btn sm pri" data-act="qrall">QR de rattrapage (${todo.length} séance${todo.length>1?'s':''})</button><button class="btn sm" data-act="shareall">Envoyer en fichier (AirDrop)</button></div></div>`:''}
   <div class="sgrid">${L.map(s=>{const st=sessState(b,s.id);
     return `<button class="sbtn ${st}" data-sess="${s.id}"><b>${s.n}</b><span>${esc(s.t)}</span><i>${st==='sent'?'✓ envoyée au prof':st==='resend'?'modifiée : renvoyer le QR':st==='wip'?'en cours · QR à montrer':''}</i></button>`}).join('')}</div>
   <div class="row wrap"><button class="btn" data-go="cibles">Mes cibles</button><button class="btn" data-go="prog">Ma progression</button><button class="btn" data-act="editbin">✎ Corriger les noms</button><button class="btn ghost" data-act="delbin">Supprimer ce binôme</button></div></section>`;
 }
 
 /* ---------- consignes repliables (bouton ⓘ) ---------- */
+const WARM_EX=[[['f','Footing 60-70 %'],['tf','Talons-fesses'],['mg','Montées de genoux'],['pc','Pas chassés'],['cr','Pas croisés']],
+ [['ch','Chevilles'],['ge','Genoux'],['ha','Hanches'],['ep','Épaules'],['ga','Gainage'],['sq','Squats'],['fe','Fentes'],['po','Montées sur pointes']],
+ [['sk','Skipping'],['gr','Foulées griffées'],['bo','Foulées bondissantes'],['ac','3 accélérations progressives'],['al','Accélération à l’allure de course']]];
+const WARM_NAME=Object.fromEntries([].concat(...WARM_EX));
 const WARM=['<b>Les 3 parties de la fiche GAREEPS</b> (15 min) :','1 · Cardio 5-6 min : footing 60-70 % puis talons-fesses, montées de genoux, pas chassés.','2 · Articulaire et renforcement 6-7 min : de bas en haut, puis 4 exercices au choix.','3 · Gammes et accélérations 5-6 min : la dernière accélération à l’allure de la course.','Écris ce que <b>tu</b> vas faire, avec les durées.'];
 const HELP={
  al4:()=>['<b>Toute la classe en même temps, 3 min par allure.</b> Les grands plots jaunes sont tous les 50 m : le nombre de grands plots franchis en 3 min = ta vitesse en km/h.',
@@ -12966,7 +13024,7 @@ const HELP={
  mine:()=>['Construis ta séance contre ton point faible de T7. Exemples :','· <b>départ trop rapide</b> → 3 × 250 m à l’allure du C1, passage annoncé, 3’ de récup ;','· <b>chute sur le 2e 500</b> → 4 × 300 m à 110 %, récup 2’ ;','· <b>1’30 hors zone</b> → 3 × 45" à l’allure du projet (la moitié du projet), récup 1’30.','Donne distance ou durée, % de VMA, récupération et répétitions. La 🧮 calcule les temps.'],
  real8:()=>['Écris le temps prévu de chaque répétition (🧮 calculatrice) puis le temps réalisé. <b>Tenu</b> à 2 s près.'],
  pfin:()=>['Fixe tes projets pour l’épreuve : 100 m visé (prise d’allure 3 × 100 m), temps de C1 et C2, passage au 250 m, distance du 1’30. Pars de tes chiffres de T7.'],
- bilan:(b,s)=>['<b>Le coach a vu</b> : ton coach coche ce que tu as bien fait, puis écrit une réussite et un conseil. Des idées de conseils apparaissent selon tes résultats : touche-les pour les ajouter.','<b>Sensations</b> : souffle 1 = je parle en phrases, 3 = par mots, 5 = je ne peux plus parler · jambes 1 = légères, 5 = elles brûlent · chaleur 1 = frais, 5 = j’étouffe.','<b>FC</b> : pouls pris 15" juste après la série, × 4.','<b>Projets tenus</b> : calculés tout seuls.','<b>La prochaine fois</b> : une seule chose précise que tu changes.']
+ bilan:(b,s)=>['<b>Le coach a vu</b> : ton coach coche ce que tu as bien fait, puis écrit une réussite et un conseil. Des idées de conseils apparaissent selon tes résultats : touche-les pour les ajouter.','<b>Pronostic du coach</b> : avant le départ, le coach écrit ce qu’il pense que tu vas réaliser. Un bon coach se trompe de moins de 3 %.','<b>Le conseil m’a aidé</b> : c’est toi, le coureur, qui juges ton coach.','<b>Effort ressenti (0 à 10)</b> : 3 = je parle en phrases, 5 = par mots, 10 = je ne peux plus parler. <b>Charge</b> = effort × durée (en unités arbitraires, UA) : elle sert à doser l’entraînement.','<b>Projets tenus</b> : calculés tout seuls. Un projet trop prudent (moins de 95 % de ta dernière distance ou de ta VMA) ne compte pas.','<b>La prochaine fois</b> : une seule chose précise que tu changes.']
 };
 function helpBox(key,b,s){const f=HELP[key];if(!f)return '';const L=f(b,s);
   return `<details class="help"><summary>ⓘ consigne</summary><div>${L.map(x=>'<p>'+x+'</p>').join('')}</div></details>`}
@@ -13044,13 +13102,14 @@ function coachOf(b,ri,sid){const d=sd(b.runners[ri],sid);if(d.cx&&d.cx.n)return 
   if(pd&&pd.st==='abs')return {n:'',rep:false,need:true};return {n:p.prenom,rep:false}}
 function presView(b,sid){
   const sts=b.runners.map(r=>(r.seances&&r.seances[sid]||{}).st||'');
-  if(!V.presOpen&&sts.every(x=>!x))return `<div class="presline"><span>✓ <b>${esc(b.runners[0].prenom)}</b> et <b>${esc(b.runners[1].prenom)}</b> présents</span><button class="lnk" data-act="presopen">Absent ou blessé ?</button></div>`;
+  const ads=b.runners.filter(r=>(r.seances&&r.seances[sid]||{}).ad).map(r=>esc(r.prenom));
+  if(!V.presOpen&&sts.every(x=>!x))return `<div class="presline"><span>✓ <b>${esc(b.runners[0].prenom)}</b> et <b>${esc(b.runners[1].prenom)}</b> présents${ads.length?` · <b>${ads.join(' et ')}</b> en pratique adaptée`:''}</span><button class="lnk" data-act="presopen">Absent, blessé, adapté ?</button></div>`;
   return `<section class="card thin pres"><div class="prow">${b.runners.map((r,i)=>{const d=sd(r,sid);const st=d.st||'';
-    return `<div class="pcol"><b>${esc(r.prenom)}</b><div class="seg">${[['','présent'],['abs','absent'],['bl','blessé / dispensé']].map(o=>`<button class="chip sm ${st===o[0]?'on':''}" data-st="${i}" data-v="${o[0]}">${o[1]}</button>`).join('')}</div></div>`}).join('')}</div>${b.runners.every(r=>!((r.seances&&r.seances[sid]||{}).st))?'<button class="lnk small" data-act="presclose">Replier</button>':''}</section>`;
+    return `<div class="pcol"><b>${esc(r.prenom)}</b><div class="seg">${[['','présent'],['abs','absent'],['bl','blessé / dispensé']].map(o=>`<button class="chip sm ${st===o[0]?'on':''}" data-st="${i}" data-v="${o[0]}">${o[1]}</button>`).join('')}${st?'':`<button class="chip sm ${d.ad?'on':''}" data-ad="${i}">pratique adaptée</button>`}</div></div>`}).join('')}</div>${b.runners.every(r=>!((r.seances&&r.seances[sid]||{}).st))?'<button class="lnk small" data-act="presclose">Replier</button>':''}</section>`;
 }
 function sessView(){
   const b=curBin(),s=SBY[V.sid],ri=V.ri||0,run=b.runners[ri],d=sd(run,s.id),vMes=vmaOf(run,s.id),vma=num(d.vj)||vMes;
-  const [t,n]=tenus(s.id,Object.assign({},d,{_v:vma}));const co=coachOf(b,ri,s.id);
+  const [t,n]=tenus(s.id,Object.assign(ctx(run,s.id,d),{_v:vma}));const co=coachOf(b,ri,s.id);
   const head=`<section class="lanehead sess ${s.id[0]==='t'?'t':'s'}"><span class="ln">${s.n}</span><div><b>${esc(s.t)}</b><span><strong>Je réussis si</strong> ${esc(s.goal)}</span></div></section>${presView(b,s.id)}
   <div class="seg big">${b.runners.map((r,i)=>{const st=(r.seances&&r.seances[s.id]||{}).st;return `<button class="chip ${i===ri?'on':''}" data-ri="${i}">${esc(r.prenom)} ${st?'('+ST_TXT[st]+')':'court'}</button>`}).join('')}</div>`;
   const qrBtn='<button class="btn pri big full" data-act="qr">Fin de séance : afficher le QR pour le prof</button>';
@@ -13061,6 +13120,7 @@ function sessView(){
   return head+`<div class="coachline ${co.need?'warn':''}"><span>Coach : <b>${co.n?esc(co.n):'à choisir'}</b>${co.rep?` <span class="tag">remplaçant · ${esc(WHY_TXT[co.why]||'')}</span>`:''}</span>
    <button class="btn sm danger" data-act="chcoach">⚠ ${co.rep?'Modifier le coach':'Changer de coach (exceptionnel)'}</button></div>
   ${co.need?'<p class="warn small center">Ton binôme est absent : choisis un coach remplaçant avant de courir.</p>':''}
+  ${d.ad?`<section class="card thin adapt"><p><b>Pratique adaptée</b> (avis médical, asthme, reprise…) : tu peux alterner course et marche, par exemple 1’ de course et 30" de marche. Ton but : la régularité, pas la distance. Tolérances élargies : 3’ à 20 m, 1’30 en zone 2, temps à 4 s.</p></section>`:''}
   ${objCard(s,run,d,vMes,vma)}
   <div class="vmaline"><span>VMA utilisée : <b>${vma?fV(vma)+' km/h':'à mesurer en '+(s.id[0]==='t'?'T2':'S1')}</b></span><button class="btn sm" data-act="calc">🧮 Calculer</button></div>
   ${stepsBar(s,d)}
@@ -13069,17 +13129,22 @@ function sessView(){
 }
 /* ---------- séance découpée en étapes ---------- */
 const RESULT=['ec2','afl1','afl1T','vup'];
-const STEP_KEY={al4:'al',ct:'ct',grp:'grp',i36:'i36',i36m:'i36',ra:'ra',ra2:'ra2',m130:'m130',warm:'warm',warmT:'warm',pf:'pf',pfT:'pf',situe:'situe',at:'at',pe:'pe',rel5:'rlt',tours:'tr',t3624:'ts',rt:'rt',i112:'c112',rep:'rep',mine:'mi',real8:'r8',pfin:'pfin'};
+const STEP_KEY={al4:'al',ct:'ct',grp:'grp',i36:'i36',i36m:'i36',ra:'ra',ra2:'ra2',m130:'m130',warm:'wc',warmT:'wc',pf:'pf',pfT:'pf',situe:'situe',at:'at',pe:'pe',rel5:'rlt',tours:'tr',t3624:'ts',rt:'rt',i112:'c112',rep:'rep',mine:'mi',real8:'r8',pfin:'pfin'};
 function filled(x){if(x==null||x==='')return false;if(Array.isArray(x))return x.some(filled);if(typeof x==='object')return Object.keys(x).some(k=>filled(x[k]));return true}
 function stepDone(B,d){const [ty,a1]=B;
-  if(ty==='bilan')return filled(getPath(d,'bl.reu'))||filled(getPath(d,'bl.nx'));
+  if(ty==='bilan')return filled(getPath(d,'bl.rpe'))&&(filled(getPath(d,'bl.reu'))||filled(getPath(d,'bl.nx')));
   if(ty==='c3')return c3dist(d[a1])!=null;if(ty==='p130')return num(d[a1]&&d[a1].ec)!=null;if(ty==='c500')return parseT(d[a1]&&d[a1].t)!=null;
-  if(ty==='txt'||ty==='ser')return filled(d[a1]);return filled(getPath(d,STEP_KEY[ty]||ty))}
+  if(ty==='txt'||ty==='ser')return filled(d[a1]);if(ty==='warm'||ty==='warmT')return filled(d.wc)||filled(d.warm);return filled(getPath(d,STEP_KEY[ty]||ty))}
 function stepList(s){return s.blocks.map(bk).filter(B=>!RESULT.includes(B[0])).concat([['bilan']])}
-function stepsBar(s,d){const L=stepList(s);const n=L.filter(B=>stepDone(B,d)).length;
-  return `<nav class="steps" aria-label="Étapes de la séance"><div class="sbar">${L.map((B,i)=>`<a href="#st-${i}" class="${stepDone(B,d)?'ok':''}" aria-label="Étape ${i+1}"><span>${i+1}</span></a>`).join('')}</div><p><b>${n} / ${L.length}</b> étapes remplies${n===L.length?' : montre ton QR au prof':''}</p></nav>`}
+const oneMode=()=>DB.opts.one!=null?DB.opts.one:window.innerWidth<600;
+function stepsBar(s,d){const L=stepList(s);const n=L.filter(B=>stepDone(B,d)).length;const one=oneMode();if(V.cur==null||V.cur>=L.length)V.cur=0;
+  return `<nav class="steps" aria-label="Étapes de la séance"><div class="sbar">${L.map((B,i)=>one?`<button class="${stepDone(B,d)?'ok':''} ${V.cur===i?'cur':''}" data-cur="${i}" aria-label="Étape ${i+1}">${i+1}</button>`:`<a href="#st-${i}" class="${stepDone(B,d)?'ok':''}" aria-label="Étape ${i+1}"><span>${i+1}</span></a>`).join('')}</div>
+   <p><b>${n} / ${L.length}</b> étapes remplies${n===L.length?' : montre ton QR au prof':''} <button class="lnk small" data-act="onetog">${one?'Tout afficher':'Une étape à la fois'}</button></p></nav>`}
 function stepWrap(html,B,s,d){if(RESULT.includes(B[0]))return html;const L=stepList(s);const i=L.findIndex(x=>x===B||(x[0]===B[0]&&x[1]===B[1]));if(i<0)return html;const ok=stepDone(B,d);
-  return html.replace('<section class="card','<section id="st-'+i+'" class="step '+(ok?'done ':'')+'card').replace('<h3>','<h3><span class="stepn">'+(ok?'✓':i+1)+'</span>')}
+  let h=html.replace('<section class="card','<section id="st-'+i+'" class="step '+(ok?'done ':'')+'card').replace('<h3>','<h3><span class="stepn">'+(ok?'✓':i+1)+'</span>');
+  if(oneMode()){if(i!==V.cur)return h.replace('<section ','<section hidden ');const k=h.lastIndexOf('</section>');
+    h=h.slice(0,k)+`<div class="stepnav">${i>0?`<button class="btn" data-cur="${i-1}">‹ Étape ${i}</button>`:'<span></span>'}${i<L.length-1?`<button class="btn pri" data-cur="${i+1}">Étape ${i+2} ›</button>`:''}</div>`+h.slice(k)}
+  return h}
 function coachModal(){
   const b=curBin(),ri=V.ri||0,run=b.runners[ri],d=sd(run,V.sid);const cx=d.cx||{};
   const known=[];DB.binomes.filter(x=>x.classe===b.classe&&x.id!==b.id).forEach(x=>x.runners.forEach(r=>known.push(r.prenom+' '+r.nom.charAt(0)+'.')));
@@ -13143,7 +13208,8 @@ function blockView(b,s,run,d,vma){
      <p class="small">Mon projet pour la S3 = cette distance, à 10 m près.</p></section>`}
   if(ty==='c3'){const c=d[a1]||{};const dd=c3dist(c),h=c3half(c),rg=c3reg(c),v=num(c.v);const sug=vma?R(dist(180,vma)/10)*10:null;
     return `<section class="card"><h3>${esc(a2)} ${who('CR')}</h3>
-     <label>Distance visée (m) ${stp(a1+'.v',d,{step:10,min:200,max:1200,start:sug||600,ph:sug?String(sug):'',chk:CHK.d3})}</label>${sug?`<p class="muted small">À 100 % de ta VMA : ${sug} m (mi-course ${R(sug/20)*10} m).${calcLink({pct:100,mode:'dur',sec:180})}</p>`:''}
+     <label>Distance visée (m) ${stp(a1+'.v',d,{step:10,min:200,max:1200,start:sug||600,ph:sug?String(sug):'',chk:CHK.d3})}</label>
+     ${v!=null&&vma&&!ambition('c3',Object.assign({},d,{_v:vma}),a1)?`<p class="vw">⚠ Projet prudent : il ne comptera pas comme tenu. Vise au moins ${Math.ceil(AMB*dist(180,vma)/10)*10} m (95 % de ta VMA).</p>`:''}${pronoField(s,b,d)}${sug?`<p class="muted small">À 100 % de ta VMA : ${sug} m (mi-course ${R(sug/20)*10} m).${calcLink({pct:100,mode:'dur',sec:180})}</p>`:''}
      <button class="btn live" data-live="dur|${a1}">⏱ Compter en direct (tours, bip à 1’30 et 3’)</button>
      <div class="row wrap"><label>Mi-course 1’30 : tours ${stp(a1+'.mt',d,{min:0,max:9,start:1,chk:CHK.tours})}</label><label>+ plot (m) ${stp(a1+'.mp',d,{step:10,min:0,max:190,start:100,chk:CHK.plot})}</label></div>
      <div class="row wrap"><label>Arrivée 3’ : tours ${stp(a1+'.ft',d,{min:0,max:9,start:num(c.mt)!=null?num(c.mt)*2:2,chk:CHK.tours})}</label><label>+ plot (m) ${stp(a1+'.fp',d,{step:10,min:0,max:190,start:100,chk:CHK.plot})}</label></div>
@@ -13153,16 +13219,21 @@ function blockView(b,s,run,d,vma){
   if(ty==='ec2'){const a=c3dist(d.c3),c=c3dist(d.c3b);const e=a!=null&&c!=null?Math.abs(a-c):null;
     return `<section class="card thin">${out('Écart entre les deux 3’ (objectif : 20 m au plus)',e==null?'–':R(e)+' m '+(e<=20?'✓':'✗'),'hi')}</section>`}
   if(ty==='p130'){const p=d[a1]||{};const e=num(p.ec),z=T?zoneT(e):zoneS(e),real=p130real(p);
-    const prev=lastReal(run,s.id);const sug=vma?R(dist(90,vma*1.05)/5)*5:null;
+    const prev=lastReal(run,s.id);const sug=vma?R(dist(90,vma*1.05)/5)*5:null;const base=prev||(vma?dist(90,vma):null);const mini=base?Math.ceil(AMB*base/5)*5:null;
+    const prud=num(p.proj)!=null&&!ambition('p130',Object.assign({},d,{_v:vma,_ref:prev}),a1);
     return `<section class="card"><h3>${esc(a2)} ${who('CR')}</h3>
-     <label>Mon projet de distance (m) ${stp(a1+'.proj',d,{step:5,min:100,max:700,start:prev||sug||300,ph:prev?String(prev):(sug?String(sug):''),chk:CHK.proj})}</label><p class="muted small">Je place mon plot à cette distance <b>avant</b> la ligne d’arrivée.${prev?' Dernière distance réalisée : '+prev+' m.':''}${calcLink({pct:105,mode:'dur',sec:90})}</p>
+     <label>Mon projet de distance (m) ${stp(a1+'.proj',d,{step:5,min:100,max:700,start:prev||sug||300,ph:prev?String(prev):(sug?String(sug):''),chk:CHK.proj})}</label>
+     ${prud?`<p class="vw">⚠ Projet prudent : il ne comptera pas comme tenu. Vise au moins ${mini} m (95 % de ${prev?'ta dernière distance':'ta VMA'}).</p>`:''}${pronoField(s,b,d)}<p class="muted small">Je place mon plot à cette distance <b>avant</b> la ligne d’arrivée.${prev?' Dernière distance réalisée : '+prev+' m.':''}${calcLink({pct:105,mode:'dur',sec:90})}</p>
      <p class="small"><b>Au coup de sifflet, j’étais :</b></p>${segv(a1+'.sd',d,[['av','avant la ligne'],['ap','après la ligne']])}
      <label>à combien de mètres de la ligne ? ${stp(a1+'.mg',d,{min:0,max:200,start:0,chk:CHK.mg})}</label>
      <div class="outs">${out('Zone',z?z[1]+(T?' · '+String(z[0]).replace('.',',')+' pt':''):'–','hi')}${out('Distance réalisée',fM(real))}${out('Projet',z?((T?z[0]>=3:z[0]>=2)?'✓ tenu':'✗'):'–')}</div>
      ${zstrip(T)}</section>`}
   if(ty==='txt')return `<section class="card"><h3>${esc(a2)} ${who('R')}</h3>${txt(a1,d)}</section>`;
-  if(ty==='warm'||ty==='warmT')return `<section class="card"><h3>1 · Mon échauffement ${who('R')}</h3><p class="muted small">${s.id==='s8'||s.id==='t9'?'Seul, sans fiche.':'Écrit avant de courir.'}</p>${['Partie 1 : durée, allure','Partie 2 : mes 4 exercices','Partie 3 : gammes, accélérations'].map((l,i)=>`<label>${l}${txt('warm.'+i,d)}</label>`).join('')}
-    ${ty==='warmT'?`<label>Ma récup entre C1 et C2 ${txt('rc',d,'ex. 3 min footing lent, puis assis, je bois')}</label><label>Ma récup entre C2 et C3 ${txt('rc2',d)}</label>`:''}</section>`;
+  if(ty==='warm'||ty==='warmT'){const wc=d.wc||[];const n2=WARM_EX[1].filter(x=>wc.includes(x[0])).length;
+    return `<section class="card"><h3>1 · Mon échauffement ${who('R')}</h3><p class="muted small">${s.id==='s8'||s.id==='t9'?'Seul, sans fiche : coche ce que tu fais.':'Coche avant de courir ce que tu vas faire.'}</p>
+    ${WARM_EX.map((L,p)=>`<p class="small"><b>${['Partie 1 · cardio, 5-6 min','Partie 2 · articulaire et renforcement, 6-7 min','Partie 3 · gammes et accélérations, 5-6 min'][p]}</b>${p===1?` <span class="${n2>=4?'ok':'muted'}">${n2} / 4 exercices au moins</span>`:''}</p><div class="seg wc">${L.map(x=>`<button class="chip sm ${wc.includes(x[0])?'on':''}" data-tog="wc" data-v="${x[0]}">${x[1]}</button>`).join('')}</div>`).join('')}
+    <label class="small">Autre chose ${txt('wx',d)}</label>
+    ${ty==='warmT'?`<label>Ma récup entre C1 et C2 ${txt('rc',d,'ex. 3 min footing lent, puis assis, je bois')}</label><label>Ma récup entre C2 et C3 ${txt('rc2',d)}</label>`:''}</section>`}
   if(ty==='afl1'){const a=afl1(run,d);
     return `<section class="card"><h3>Ma note de course (AFL1)</h3>${a?`<div class="outs">${out('3’ /4',a.n3)}${out('1’30 /4',a.n1)}${out('Zone /3',a.z+' ('+a.zl+')')}${out('Régularité /1',a.rg)}${out('AFL1 /12',a.tot,'hi')}</div>`:'<p class="muted">Remplis les deux courses.</p>'}</section>`}
   if(ty==='afl1T'){const a=afl1T(run,d);const f=x=>x==null?'–':String(x).replace('.',',');
@@ -13189,6 +13260,7 @@ function blockView(b,s,run,d,vma){
   if(ty==='c500'){const c=d[a1]||{};const tt=parseT(c.t),pj=parseT(c.tp),ps=parseT(c.ps);const sx=run.sexe==='F'?'F':'G';const sug=vma&&s.eval?R(tSec(500,vma*1.1)):null;
     return `<section class="card"><h3>${esc(a2)} ${who('CR')}</h3>
      <label>Mon temps visé ${tstp(a1+'.tp',d,{min:75,max:270,start:sug||(sx==='F'?165:130),ph:sug?fT(sug):'',chk:CHK.t500})}</label>
+     ${pj!=null&&vma&&!ambition('c500',Object.assign({},d,{_v:vma}),a1)?`<p class="vw">⚠ Projet prudent : il ne comptera pas comme tenu. Vise ${fT(Math.floor(tSec(500,vma)/AMB))} ou plus vite.</p>`:''}${pronoField(s,b,d)}
      <p class="muted small">${pj?`Passage visé au 250 m : <b>${fT(pj/2)}</b> · vitesse ${fV(1800/pj)} km/h.`:'Repère : 2’00 au 500 m = 15 km/h.'}${calcLink({pct:110,mode:'dist',dist:500})}</p>
      <button class="btn live" data-live="c500|${a1}">⏱ Chronométrer en direct</button>
      <div class="row wrap"><label>Passage au 250 m ${tstp(a1+'.ps',d,{min:30,max:150,start:pj?R(pj/2):60,chk:x=>x!=null&&tt&&x>=tt?'le passage doit être plus court que le temps final.':''})}</label><label>Temps final ${tstp(a1+'.t',d,{min:75,max:270,start:pj||130,chk:CHK.t500})}</label></div>
@@ -13236,6 +13308,14 @@ function lapChart(lt){const a=(lt||[]).map(num).filter(x=>x!=null&&x>0);if(a.len
   const y=x=>B-x/mx*(B-22);
   return `<div class="chart"><p class="small"><b>Temps de chaque tour</b> · écart ${R(mx-mn)} s ${mx-mn<=4?'✓ régulier':'✗ irrégulier'}</p><svg viewBox="0 0 ${W} ${H}" role="img">${a.map((x,i)=>`<rect x="${i*bw+6}" y="${y(x)}" width="${bw-12}" height="${B-y(x)}" rx="6" fill="${Math.abs(x-m)<=2?'var(--acc)':'var(--track)'}"/><text x="${i*bw+bw/2}" y="${y(x)-5}" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor">${fT(x)}</text><text x="${i*bw+bw/2}" y="${H-4}" text-anchor="middle" font-size="12" fill="currentColor" opacity=".6">tour ${i+1}</text>`).join('')}<line x1="0" x2="${a.length*bw}" y1="${y(m)}" y2="${y(m)}" stroke="currentColor" stroke-dasharray="4 4" opacity=".45"/></svg></div>`}
 
+/* ---------- pronostic du coach (AFL3 évaluable) ---------- */
+function pronoTarget(s){for(const b of s.blocks.map(bk)){if(b[0]==='c500')return b;if(b[0]==='c3'&&b[1]==='c3')return b;if(b[0]==='p130'&&b[1]==='p')return b}return null}
+function pronoReal(B,d){if(!B)return null;const [ty,a1]=B;if(ty==='c500')return parseT(d[a1]&&d[a1].t);if(ty==='c3')return c3dist(d[a1]);return p130real(d[a1])}
+function pronoErr(s,d){const B=pronoTarget(s);if(!B||!d)return null;const r=pronoReal(B,d);const p=B[0]==='c500'?parseT(getPath(d,'bl.pr')):num(getPath(d,'bl.pr'));if(r==null||p==null||!r)return null;return Math.abs(p-r)/r*100}
+function pronoField(s,b,d){const B=pronoTarget(s);if(!B||B[0]!==b[0]||B[1]!==b[1])return '';const T=B[0]==='c500';const p=T?parseT(getPath(d,'bl.pr')):num(getPath(d,'bl.pr'));const r=pronoReal(B,d);
+  return `<div class="prono"><p class="small"><b>⏱ Pronostic du coach</b> <span class="muted">(avant le départ : ce que tu penses qu’il va réaliser)</span></p>
+   ${T?tstp('bl.pr',d,{min:75,max:270,start:parseT(d[B[1]]&&d[B[1]].tp)||130}):stp('bl.pr',d,{step:B[0]==='c3'?10:5,min:100,max:1200,start:num(B[0]==='c3'?d[B[1]]&&d[B[1]].v:d[B[1]]&&d[B[1]].proj)||(B[0]==='c3'?600:300)})}
+   ${p!=null&&r!=null?`<span class="small ${Math.abs(p-r)/r<=0.03?'ok':'muted'}">Écart du pronostic : ${T?R(Math.abs(p-r))+' s':R(Math.abs(p-r))+' m'} (${R(Math.abs(p-r)/r*100)} %)</span>`:''}</div>`}
 /* ---------- conseils suggérés au coach ---------- */
 function suggest(s,run,d,v){const L=[];
   s.blocks.forEach(b=>{const [ty,a1,a2,a3]=bk(b);
@@ -13260,13 +13340,19 @@ function bilanView(s,run,d,t,n,v){
    <p class="small"><b>⏱ Le coach a vu</b></p><div class="checks">${s.crit.map((c,i)=>`<button class="chk ${cr[i]?'on':''}" data-set="bl.cr.${i}" data-v="${cr[i]?'':'1'}">${cr[i]?'☑':'☐'} ${esc(c)}</button>`).join('')}</div>
    <div class="row wrap"><label class="f1">⏱ Ta réussite ${txt('bl.reu',d)}</label><label class="f1">⏱ Ton conseil ${txt('bl.con',d)}</label></div>
    ${sg.length?`<p class="small"><b>💡 Idées de conseils</b> <span class="muted">(d’après les résultats · touche pour ajouter)</span></p><div class="sugg">${sg.map(x=>`<button class="chip sg ${con.includes(x)?'on':''}" data-sugg="${esc(x)}">＋ ${esc(x)}</button>`).join('')}</div>`:''}
-   <p class="small"><b>✎ Mes sensations</b> <span class="muted">(1 je parle en phrases… 5 je ne peux plus parler)</span></p>
-   ${[['so','Souffle'],['ja','Jambes'],['ch','Chaleur']].map(x=>`<div class="sens"><span>${x[1]}</span>${segv('bl.'+x[0],d,[1,2,3,4,5].map(k=>[k,k]))}</div>`).join('')}
-   <div class="row wrap"><label>✎ FC en fin de série (/min) ${stp('bl.fc',d,{step:4,min:60,max:240,start:160,chk:CHK.fc})}</label><div class="f1"><p class="small"><b>✎ Mon rôle aujourd’hui</b></p>${segv('bl.role',d,[['coach','coach'],['juge','juge-chrono']])}</div></div>
+   <p class="small"><b>✎ Le conseil de mon coach m’a aidé</b></p>${segv('bl.aide',d,[['1','oui'],['0','non']])}
+   <p class="small"><b>✎ Effort ressenti sur la séance</b> <span class="muted">(0 repos … 10 maximal)</span></p>
+   <div class="rpe">${[0,1,2,3,4,5,6,7,8,9,10].map(k=>`<button class="chip sm r${k} ${String(getPath(d,'bl.rpe'))===String(k)?'on':''}" data-set="bl.rpe" data-v="${k}">${k}</button>`).join('')}</div>
+   <p class="small rpel">${getPath(d,'bl.rpe')!=null&&getPath(d,'bl.rpe')!==''?RPE_TXT[+getPath(d,'bl.rpe')]:'Touche le chiffre qui correspond à ton effort.'}</p>
+   <div class="row wrap"><label>✎ Durée de pratique (min) ${stp('bl.du',d,{step:5,min:10,max:120,start:60})}</label>${out('Charge de la séance',chargeOf(d)!=null?chargeOf(d)+' UA':'–')}</div>
+   <details class="help"><summary>FC (facultatif)</summary><div><label>FC en fin de série (/min), pouls 15" × 4 ${stp('bl.fc',d,{step:4,min:60,max:240,start:160,chk:CHK.fc})}</label></div></details>
+   <div><p class="small"><b>✎ Mon rôle aujourd’hui</b></p>${segv('bl.role',d,[['coach','coach'],['juge','juge-chrono']])}</div>
    <div class="outs">${out('Projets tenus aujourd’hui',n?t+' / '+n:'–','hi')}</div>
    <label>✎ La prochaine fois, je… ${txt('bl.nx',d)}</label></section>`;
 }
 
+const RPE_TXT=['0 · repos','1 · très, très facile','2 · facile','3 · modéré : je parle en phrases','4 · un peu dur','5 · dur : je parle par mots','6 · dur +','7 · très dur','8 · très dur +','9 · presque maximal','10 · maximal : je ne peux plus parler'];
+function chargeOf(d){const r=num(getPath(d,'bl.rpe'));if(r==null)return null;return R(r*(num(getPath(d,'bl.du'))||60))}
 /* ---------- compteur et chrono en direct (coach) ---------- */
 let LIVE=null;
 function liveOpen(kind,key){liveStop();const dur=key==='m130'?90:180;LIVE={kind,key,dur,t0:null,laps:[],mid:null,end:null,stage:'ready',b1:false};
@@ -13312,6 +13398,29 @@ function liveAct(a,val){const L=LIVE;if(!L)return;const e=lvEl();
   liveRender()}
 function liveTap(tag,x){const L=LIVE;if(!L)return;if(tag==='mid'){L.mid=x}else{L.end=x;L.stage='done';clearInterval(L.h)}liveRender()}
 
+/* ---------- chrono de classe (téléphone du prof + enceinte) ---------- */
+const CPRE=[['36"/36" × 8',36,36,8,0],['36"/36" × 6',36,36,6,0],['Test 36"/24" × 10',36,24,10,0],['1’12/1’12 × 4',72,72,4,0],['3’ (mi-course 1’30)',180,0,1,1],['1’30 (mi-course 45")',90,0,1,1],['2 × 6’ (récup 3’)',360,180,2,0],['Récup active 3’',180,0,1,0]];
+let CH={w:36,r:36,n:8,mid:0,voice:true,run:null};
+function chronoView(){const r=CH.run;
+  return `<section class="card chrono"><h2>⏱ Chrono de classe</h2><p class="muted small">Pour ton téléphone branché sur une enceinte : bips à chaque départ et arrêt, 3-2-1 avant chaque changement, voix en français.</p>
+  ${r?`<div class="chbig ${r.ph}"><span id="chph">${r.ph==='run'?'Course':r.ph==='rest'?'Récupération':r.ph==='pre'?'Prêts…':'Terminé'}</span><b id="cht">${fT(Math.ceil(r.left))}</b><span id="chrep">${r.ph==='done'?'':'Répétition '+r.i+' / '+CH.n}</span></div>
+     <div class="row wrap center"><button class="btn big" data-act="chpause">${r.paused?'▶ Reprendre':'Ⅱ Pause'}</button><button class="btn big ghost" data-act="chstop">■ Arrêter</button></div>`
+   :`<div class="seg">${CPRE.map((p,i)=>`<button class="chip ${CH.w===p[1]&&CH.r===p[2]&&CH.n===p[3]&&CH.mid===p[4]?'on':''}" data-chp="${i}">${p[0]}</button>`).join('')}</div>
+     <div class="row wrap"><label>Course (s) <input class="in w" id="chw" inputmode="numeric" value="${CH.w}"></label><label>Récupération (s) <input class="in w" id="chr" inputmode="numeric" value="${CH.r}"></label><label>Répétitions <input class="in w" id="chn" inputmode="numeric" value="${CH.n}"></label></div>
+     <label class="tog"><input type="checkbox" id="chmid" ${CH.mid?'checked':''}> Annoncer la mi-course</label><label class="tog"><input type="checkbox" id="chvoice" ${CH.voice?'checked':''}> Voix (« Partez », « Stop », « Mi-course »)</label>
+     <p class="small">Total : <b>${fT(CH.n*CH.w+(CH.n-1)*CH.r)}</b></p><button class="btn pri huge" data-act="chgo">▶ Lancer (départ dans 5 s)</button>`}</section>`}
+function say(t){if(!CH.voice||!window.speechSynthesis)return;try{const u=new SpeechSynthesisUtterance(t);u.lang='fr-FR';u.rate=1.05;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function chStart(){CH.run={ph:'pre',i:0,left:5,end:Date.now()+5000,paused:false,beeped:{}};say('Départ dans 5 secondes');try{if(navigator.wakeLock)navigator.wakeLock.request('screen').then(l=>CH.lock=l).catch(()=>{})}catch(e){}
+  clearInterval(CH.h);CH.h=setInterval(chTick,100);render()}
+function chNext(){const r=CH.run;if(r.ph==='pre'||r.ph==='rest'){r.i++;r.ph='run';r.left=CH.w;r.end=Date.now()+CH.w*1000;r.midDone=false;beep(1000,600);say('Partez')}
+  else if(r.ph==='run'){if(r.i>=CH.n||!CH.r){if(r.i>=CH.n){r.ph='done';r.left=0;beep(600,900);say('Stop. Terminé');clearInterval(CH.h);try{CH.lock&&CH.lock.release()}catch(e){}render();return}}
+    r.ph='rest';r.left=CH.r;r.end=Date.now()+CH.r*1000;beep(600,700);say('Stop')}
+  r.beeped={};render()}
+function chTick(){const r=CH.run;if(!r||r.paused||r.ph==='done')return;r.left=(r.end-Date.now())/1000;
+  const s=Math.ceil(r.left);if(s<=3&&s>=1&&!r.beeped[s]){r.beeped[s]=1;beep(880,120)}
+  if(CH.mid&&r.ph==='run'&&!r.midDone&&r.left<=CH.w/2){r.midDone=true;beep(1200,250);say('Mi-course')}
+  if(r.left<=0)return chNext();const t=$('#cht');if(t)t.textContent=fT(Math.ceil(r.left))}
+function chStop(){clearInterval(CH.h);CH.run=null;try{CH.lock&&CH.lock.release()}catch(e){}try{speechSynthesis.cancel()}catch(e){}}
 /* ---------- cibles & progression ---------- */
 function ciblesView(){
   const b=curBin();const T=cyOf(b)==='T';const L=curSessOf(b);
@@ -13346,9 +13455,9 @@ function progView(){
        return `<tr><th>${s.n}</th><td>${best?fT(best):'–'}</td><td>${p&&p.proj?esc(p.proj)+' m':'–'}</td><td>${fM(p130real(p))}</td><td>${z?z[1].replace(/ \(.*\)/,''):'–'}</td><td>${n?t+'/'+n:'–'}</td></tr>`}
      const c=d&&d.c3?c3dist(d.c3):null;c3v.push(c);
      return `<tr><th>${s.n}</th><td>${fM(c)}</td><td>${p&&p.proj?esc(p.proj)+' m':'–'}</td><td>${fM(p130real(p))}</td><td>${z?z[1]:'–'}</td><td>${n?t+'/'+n:'–'}</td></tr>`}).join('');
-   const dg=degreeOf(TT,NN);const lab=L.map(s=>s.n);
+   const dg=degreeOf(TT,NN);const lab=L.map(s=>s.n);const ec=L.map(s=>{const x=ecartOf(s.id,r.seances&&r.seances[s.id]);return x==null?null:R(x)});const ch5=L.map(s=>{const x=ecartT(s.id,r.seances&&r.seances[s.id]);return x==null?null:R(x)});const chg=L.map(s=>chargeOf(r.seances&&r.seances[s.id]||{}));
    const ch=(T?lineChart(lab,[{n:'500 m (meilleur temps)',v:t5,c:'#6366f1'}],{title:'Mon temps sur 500 m',inv:true,fmt:fT}):lineChart(lab,[{n:'Distance du 3’',v:c3v,c:'#0d9488'}],{title:'Ma distance en 3’ (m)'}))
-     +lineChart(lab,[{n:'Projet',v:pj,c:'#f04e23',dash:true},{n:'Réalisé',v:pr,c:T?'#6366f1':'#0d9488'}],{title:'1’30 : projet et distance réalisée (m)'})+barTenus(lab,pct);
+     +lineChart(lab,[{n:'Projet',v:pj,c:'#f04e23',dash:true},{n:'Réalisé',v:pr,c:T?'#6366f1':'#0d9488'}],{title:'1’30 : projet et distance réalisée (m)'})+lineChart(lab,[{n:'Écart au projet du 1’30 et du 3’ (m)',v:ec,c:'#c2412d'}].concat(T?[{n:'Écart au temps visé du 500 m (s)',v:ch5,c:'#4b44d8',dash:true}]:[]),{title:'Mon écart au projet : plus il baisse, mieux je gère mon allure'})+barTenus(lab,pct)+lineChart(lab,[{n:'Charge (effort × durée)',v:chg,c:'#64748b'}],{title:'Ma charge de séance (UA)'});
    return `<div class="sub"><h3>${esc(r.prenom)}</h3>${ch||'<p class="muted small">Les courbes apparaissent après deux séances remplies.</p>'}
     <details class="help"><summary>Tableau des séances</summary><div class="tw"><table class="tt"><tr><th></th><th>${T?'500 m':'3’'}</th><th>1’30 projet</th><th>1’30 réalisé</th><th>Zone</th><th>Tenus</th></tr>${rows}</table></div></details>
     <div class="outs">${out('Projets tenus sur le cycle',NN?TT+' / '+NN+' ('+R(100*TT/NN)+' %)':'–','hi')}${out('Indicateur AFL2',dg?DEG_TXT[dg]:'–')}</div></div>`}).join('')}<button class="btn full" data-go="bin">← Retour au binôme</button></section>`;
@@ -13366,6 +13475,23 @@ function qrModal(sid,part){
    <div class="qr">${qrSvg(pl)}</div><div class="row wrap center">${split?(k===0?`<button class="btn pri big" data-qrp="1">QR suivant (${esc(b.runners[1].prenom)}) →</button>`:`<button class="btn" data-qrp="0">← QR 1</button>`):''}<button class="btn" data-act="copy">Copier le texte</button><button class="btn" data-act="closem">Fermer</button></div>
    <textarea id="qrtxt" class="in small" rows="2" readonly>${esc(pl)}</textarea>`);
 }
+/* ---------- rattrapage : toutes les séances non envoyées d'un binôme en une fois ---------- */
+function catchupPayload(b){const L=curSessOf(b).filter(s=>['wip','resend'].includes(sessState(b,s.id)));
+  b.runners.forEach(r=>L.forEach(s=>{const d=r.seances&&r.seances[s.id];if(d&&!d.st){const v=effV(r,s.id);if(v)d._v=R(v*10)/10}}));
+  return [L,'DF3'+JSON.stringify({v:3,y:cyOf(b),c:b.classe,b:b.id,r:b.runners.map((r,i)=>({i,p:r.prenom,n:r.nom,x:r.sexe,se:Object.fromEntries(L.filter(s=>hasData(r.seances&&r.seances[s.id])).map(s=>[s.id,Object.assign(slimSeance(r.seances[s.id]),{_m:(v=>v?R(v*10)/10:undefined)(vmaOf(r,s.id))})]))}))})]}
+function markSent(b,L){b.sent=b.sent||{};L.forEach(s=>b.sent[s.id]=Date.now());save()}
+function animQr(title,sub,parts){let i=0;modal(`<h2>${title}</h2><p class="muted small">${sub}</p><div class="qr" id="rqr">${qrSvg(parts[0])}</div><p class="center small" id="rqn">${parts.length>1?'1 / '+parts.length+' · laisse le prof viser jusqu’au bip final':''}</p><div class="row center"><button class="btn" data-act="closem">Fermer</button></div>`);
+  if(RQ.h)clearInterval(RQ.h);if(parts.length>1)RQ.h=setInterval(()=>{i=(i+1)%parts.length;const q=$('#rqr'),n=$('#rqn');if(!q){clearInterval(RQ.h);return}q.innerHTML=qrSvg(parts[i]);n.textContent=(i+1)+' / '+parts.length+' · laisse le prof viser jusqu’au bip final'},1200)}
+/* côté prof : QR en plusieurs morceaux (rattrapage) et fichiers reçus */
+let PCH={tag:null,n:0,parts:{}};
+function profAddAny(raw){raw=String(raw||'').trim();
+  if(raw.startsWith('DFP|')){const m=/^DFP\|(\w+)\|(\d+)\/(\d+)\|([\s\S]*)$/.exec(raw);if(!m)throw new Error('Morceau de QR illisible.');if(PCH.tag!==m[1])PCH={tag:m[1],n:+m[3],parts:{}};PCH.parts[+m[2]]=m[4];
+    const got=Object.keys(PCH.parts).length;if(got<PCH.n)return {partial:'rattrapage : '+got+' / '+PCH.n+' morceaux'};let s='';for(let i=1;i<=PCH.n;i++)s+=PCH.parts[i];PCH={tag:null,n:0,parts:{}};return profAddAny(s)}
+  if(raw.startsWith('DF2R'))throw new Error('QR de restauration : il se scanne sur la tablette de l’élève, pas ici.');
+  if(raw.startsWith('DF3')){const o=JSON.parse(raw.slice(3));const sids=[...new Set([].concat(...o.r.map(r=>Object.keys(r.se||{}))))];
+    sids.forEach(sid=>profAddObj({v:2,s:sid,y:o.y,c:o.c,b:o.b,r:o.r.filter(r=>r.se&&r.se[sid]).map(r=>{const d=Object.assign({},r.se[sid]);const m=d._m;delete d._m;return {i:r.i,p:r.p,n:r.n,x:r.x,m,d}})}));
+    return 'rattrapage '+sids.map(s=>SBY[s].n).join(', ')+' · '+o.r.map(r=>r.p).join(', ')+' ('+o.c+')'}
+  return profAdd(raw)}
 /* ---------- restauration d'un binôme sur une tablette (QR animé du prof) ---------- */
 let RQ={h:null},RST={tag:null,n:0,parts:{}};
 function restoreScanModal(){RST={tag:null,n:0,parts:{}};
@@ -13397,8 +13523,8 @@ function findKey(o,r){
   if(byName)return byName;
   return idk||profKey(o.c,r);
 }
-function profAdd(raw){
-  const o=parsePayload(raw);const added=[];
+function profAdd(raw){return profAddObj(parsePayload(raw))}
+function profAddObj(o){if(DB.opts.dev!=='prof')throw new Error('Cet appareil n’est pas déclaré « appareil du prof » : rien n’est enregistré ici.');const added=[];
   o.r.forEach(r=>{const k=findKey(o,r);const st=PDB.students[k]=PDB.students[k]||{seances:{}};
     const keepNom=String(r.n||'').length<=1&&st.nom&&norm(st.nom).startsWith(norm(r.n));const nom=keepNom?st.nom:r.n;
     if(st.prenom&&(norm(st.prenom)!==norm(r.p)||norm(st.nom)!==norm(nom)))added.push('nom corrigé : '+st.prenom+' '+st.nom+' → '+r.p+' '+nom);
@@ -13407,14 +13533,15 @@ function profAdd(raw){
 }
 function profView(){
   const tab=V.ptab||'scan';
-  const tabs=[['scan','Scanner'],['classe','Classe'],['seance','Séance · étoiles'],['data','Données']];
+  const stu=DB.opts.dev==='stu';const tabs=stu?[['data','Réglages tablette'],['chrono','Chrono']]:[['scan','Scanner'],['classe','Classe'],['seance','Étoiles'],['chrono','Chrono'],['data','Données']];
+  if(!tabs.some(t=>t[0]===tab))return (V.ptab=tabs[0][0],profView());
   return `<div class="seg big">${tabs.map(t=>`<button class="chip ${tab===t[0]?'on':''}" data-ptab="${t[0]}">${t[1]}</button>`).join('')}</div>`+
-   (tab==='scan'?profScan():tab==='classe'?profClasse():tab==='seance'?profSeance():profData());
+   (tab==='scan'?profScan():tab==='classe'?profClasse():tab==='seance'?profSeance():tab==='chrono'?chronoView():profData());
 }
 function profScan(){
   return `<section class="card"><h2>Scanner les QR de fin de séance</h2><p class="muted small">Caméra arrière. Un bip = séance ajoutée. ${'BarcodeDetector' in window?'Détection native (Android).':'Détection jsQR (iPad).'}</p>
   <div class="row wrap"><button class="btn pri" data-act="scan">Démarrer la caméra</button><button class="btn" data-act="stopscan">Arrêter</button>
-  <label class="btn">Photo d’un QR<input type="file" accept="image/*" capture="environment" id="qrphoto" hidden></label></div>
+  <label class="btn">Photo d’un QR<input type="file" accept="image/*" capture="environment" id="qrphoto" hidden></label><label class="btn">Fichier reçu (AirDrop)<input type="file" accept=".txt,text/plain,.json" id="qrfile" multiple hidden></label></div>
   <video id="vid" playsinline muted></video><canvas id="cv" hidden></canvas><p id="scanlog" class="small"></p>
   <details><summary class="small">Coller un texte de QR</summary><textarea id="paste" class="in" rows="3"></textarea><button class="btn" data-act="paste">Ajouter</button></details></section>`;
 }
@@ -13427,6 +13554,13 @@ function clsSel(){const cs=classes();if(!V.pc||!cs.includes(V.pc))V.pc=cs[0]||''
 function stTotals(k,st){let T=0,N=0;sessOf(st.cy).forEach(s=>{const [t,n]=tenR(runOf(st),s.id);T+=t;N+=n});return [T,N]}
 const fc=x=>x==null||x===''?'–':String(x).replace('.',',');
 const nm=st=>esc(st.nom.toUpperCase())+' '+esc(st.prenom);
+function ecTrend(st){const L=sessOf(st.cy);const v=L.map(s=>ecartOf(s.id,st.seances[s.id])).filter(x=>x!=null);if(!v.length)return '–';const a=R(v[0]),b=R(v[v.length-1]);return v.length<2?a+' m':`${a} → <b class="${b<a?'ok':b>a?'ko':''}">${b} m</b>`}
+function binOf(k,st){return st.bin||(k.startsWith('id:')?k.slice(3).split('|')[0]:null)}
+/* AFL3 : ce que l'élève produit comme coach, mesuré chez son partenaire */
+function coachStat(k,st){const bin=binOf(k,st);if(!bin)return '–';const ri=st.ri!=null?st.ri:+(k.split('|')[1]||0);
+  const p=Object.entries(PDB.students).find(([kk,s])=>binOf(kk,s)===bin&&kk!==k&&(s.ri==null||s.ri!==ri));if(!p)return '–';const ps=p[1];let yes=0,tot=0;const er=[];
+  sessOf(ps.cy).forEach(s=>{const d=ps.seances[s.id];if(!d||d.st||d.cx)return;const bl=d.bl||{};if(bl.aide==='1'||bl.aide==='0'){tot++;if(bl.aide==='1')yes++}const e=pronoErr(s,d);if(e!=null)er.push(e)});
+  if(!tot&&!er.length)return '–';return (tot?`aide ${yes}/${tot}`:'')+(er.length?`<br><small>pronostic ±${R(er.reduce((a,x)=>a+x,0)/er.length)} %</small>`:'')}
 /* alertes pédagogiques de la classe */
 function classAlerts(c){const L=sessOf(clsCy(c));const S=studs(c);const out_=[];
   let last=-1;S.forEach(([k,st])=>L.forEach((s,i)=>{if(st.seances[s.id]&&i>last)last=i}));
@@ -13440,15 +13574,15 @@ function classAlerts(c){const L=sessOf(clsCy(c));const S=studs(c);const out_=[];
 function profClasse(){
   const sel=clsSel();if(!V.pc)return `<section class="card">${sel}</section>`;const cy=clsCy(V.pc),L=sessOf(cy),T=cy==='T';
   const ev=T?['t7','t9']:['s6','s8'];
-  const head=`<tr><th>Élève</th><th>VMA</th>${L.map(s=>`<th>${s.n}</th>`).join('')}<th>Projets tenus</th><th>Blanche /12</th><th>AFL1 /12</th>${T?'<th>Répart.</th>':''}<th>AFL2</th><th>AFL3</th><th>/20</th></tr>`;
+  const head=`<tr><th>Élève</th><th>VMA</th>${L.map(s=>`<th>${s.n}</th>`).join('')}<th>Projets tenus</th><th>Écart 1’30<br><small>début → fin</small></th><th>Comme coach</th><th>Blanche /12</th><th>AFL1 /12</th>${T?'<th>Répart.</th>':''}<th>AFL2</th><th>AFL3</th><th>/20</th></tr>`;
   const rows=studs(V.pc).map(([k,st])=>{const run=runOf(st);const [TT,N]=stTotals(k,st);const dg=degreeOf(TT,N);
     const b6=aflOf(run,st.seances[ev[0]],cy),e8=aflOf(run,st.seances[ev[1]],cy);const a2=num(st.afl2),a3=num(st.afl3);const tot=e8&&e8.tot!=null&&a2!=null&&a3!=null?R((e8.tot+a2+a3)*10)/10:null;
     const rep=T?((st.seances.t9&&st.seances.t9.rep)||(st.seances.t7&&st.seances.t7.rep)||''):'';const mx=rep?rep.split('/'):T?['?','?']:['4','4'];
     return `<tr><th class="l">${nm(st)} <button class="lnk small" data-rest="${esc(k)}" title="QR de restauration">↺</button></th><td>${fV(vmaOf(run,L[L.length-1].id))}</td>${L.map(s=>{const d=st.seances[s.id];if(!d)return '<td class="no">·</td>';const [t,n]=tenR(run,s.id);const sr=starOf(k,s.id);
       if(!hasData(d))return `<td class="no"><button class="cell" data-det="${esc(k)}|${s.id}">vide</button></td>`;
       if(d.st)return `<td class="abs"><button class="cell" data-det="${esc(k)}|${s.id}">${d.st==='abs'?'abs':'disp'}</button></td>`;
-      return `<td class="yes"><button class="cell" data-det="${esc(k)}|${s.id}">${n?t+'/'+n:'✓'}${d.cx?'<i>coach ↺</i>':''}${d.vj?'<i>VMA ✎</i>':''}${sr.a2?'<i>★2</i>':''}${sr.a3?'<i>★3</i>':''}</button></td>`}).join('')}
-     <td>${N?TT+'/'+N+' · '+R(100*TT/N)+' %<br><small>degré '+dg+'</small>':'–'}</td><td>${fc(b6&&b6.tot)}</td><td>${fc(e8&&e8.tot)}</td>${T?`<td>${esc(rep||'–')}</td>`:''}
+      return `<td class="yes"><button class="cell" data-det="${esc(k)}|${s.id}">${n?t+'/'+n:'✓'}${d.ad?'<i>adapté</i>':''}${d.cx?'<i>coach ↺</i>':''}${d.vj?'<i>VMA ✎</i>':''}${sr.a2?'<i>★2</i>':''}${sr.a3?'<i>★3</i>':''}</button></td>`}).join('')}
+     <td>${N?TT+'/'+N+' · '+R(100*TT/N)+' %<br><small>degré '+dg+'</small>':'–'}</td><td>${ecTrend(st)}</td><td>${coachStat(k,st)}</td><td>${fc(b6&&b6.tot)}</td><td>${fc(e8&&e8.tot)}</td>${T?`<td>${esc(rep||'–')}</td>`:''}
      <td><input class="in w" data-af="${esc(k)}|afl2" inputmode="decimal" value="${esc(st.afl2||'')}" placeholder="/${mx[0]}"></td><td><input class="in w" data-af="${esc(k)}|afl3" inputmode="decimal" value="${esc(st.afl3||'')}" placeholder="/${mx[1]}"></td><td><b>${fc(tot)}</b></td></tr>`}).join('');
   const al=classAlerts(V.pc);const ic={qr:'📵',ko:'🎯',vma:'✎',abs:'🚫',coach:'⏱'};
   return `<section class="card">${sel}${al.length?`<details class="alerts" open><summary>⚠ ${al.length} point${al.length>1?'s':''} d’attention</summary><ul>${al.map(a=>`<li><span>${ic[a[0]]}</span>${a[1]}</li>`).join('')}</ul></details>`:''}
@@ -13457,22 +13591,24 @@ function profClasse(){
 function profSeance(){
   const sel=clsSel();const L=sessOf(clsCy(V.pc));if(!V.ps||!L.some(s=>s.id===V.ps))V.ps=L[0].id;const sid=V.ps;
   return `<section class="card">${sel}<div class="seg">${L.map(s=>`<button class="chip ${sid===s.id?'on':''}" data-ps="${s.id}">${s.n}</button>`).join('')}</div>
-  ${V.pc?`<div class="tw"><table class="tt pt"><tr><th>Élève</th><th>Tenus</th><th>Coach a vu</th><th>Sensations</th><th>Rôle</th><th>Prochaine fois</th><th>★ AFL2</th><th>★ AFL3</th></tr>${studs(V.pc).map(([k,st])=>{const d=st.seances[sid];const sr=starOf(k,sid);
+  ${V.pc?`<div class="tw"><table class="tt pt"><tr><th>Élève</th><th>Tenus</th><th>Coach a vu</th><th>Effort · charge</th><th>Rôle</th><th>Prochaine fois</th><th>★ AFL2</th><th>★ AFL3</th></tr>${studs(V.pc).map(([k,st])=>{const d=st.seances[sid];const sr=starOf(k,sid);
     if(!d)return `<tr class="no"><th class="l">${nm(st)}</th><td colspan="7">pas de QR pour cette séance</td></tr>`;
     if(d.st==='abs')return `<tr class="no"><th class="l">${nm(st)}</th><td colspan="7">absent(e)</td></tr>`;
     const [t,n]=tenR(runOf(st),sid);const bl=d.bl||{};const cr=(bl.cr||[]).filter(Boolean).length;
-    return `<tr><th class="l">${nm(st)}${d.st==='bl'?'<br><small>ne court pas</small>':''}${d.cx?'<br><small>coach : '+esc(d.cx.n)+' ('+esc(WHY_TXT[d.cx.why]||'')+')</small>':''}</th><td>${n?t+'/'+n:'–'}</td><td>${cr}/3</td><td>${[bl.so,bl.ja,bl.ch].map(x=>x||'·').join(' · ')}${bl.fc?' · '+esc(bl.fc)+' bpm':''}</td><td>${esc(bl.role||'–')}</td><td class="l small">${esc(bl.nx||'')}</td>
+    return `<tr><th class="l">${nm(st)}${d.st==='bl'?'<br><small>ne court pas</small>':''}${d.cx?'<br><small>coach : '+esc(d.cx.n)+' ('+esc(WHY_TXT[d.cx.why]||'')+')</small>':''}</th><td>${n?t+'/'+n:'–'}</td><td>${cr}/3</td><td>${bl.rpe!=null&&bl.rpe!==''?'RPE '+esc(bl.rpe)+' · '+chargeOf(d)+' UA':[bl.so,bl.ja,bl.ch].some(Boolean)?[bl.so,bl.ja,bl.ch].map(x=>x||'·').join(' · '):'–'}${bl.fc?' · '+esc(bl.fc)+' bpm':''}</td><td>${esc(bl.role||'–')}</td><td class="l small">${esc(bl.nx||'')}</td>
      <td><button class="star ${sr.a2?'on':''}" data-star="${esc(k)}|${sid}|a2">★</button></td><td><button class="star ${sr.a3?'on':''}" data-star="${esc(k)}|${sid}|a3">★</button></td></tr>`}).join('')}</table></div>`:''}</section>`;
 }
 function unsentOf(b){let n=0;curSessOf(b).forEach(s=>{const st=sessState(b,s.id);if(st==='wip'||st==='resend')n++});return n}
 function profData(){
-  const n=Object.keys(PDB.students).length;const tc=[...new Set(DB.binomes.map(b=>b.classe))].sort();
-  return `<section class="card"><h2>Données du prof</h2><p>${n} élève(s) enregistré(s) sur cet appareil.</p>
+  const n=Object.keys(PDB.students).length;const tc=[...new Set(DB.binomes.map(b=>b.classe))].sort();const stu=DB.opts.dev==='stu';
+  return `${stu?`<section class="card thin"><p class="small">Cet appareil est déclaré <b>tablette d’élève</b> : aucune donnée de classe n’y est stockée. <button class="lnk small" data-act="devreset">Changer</button></p></section>`:`<section class="card"><h2>Données du prof</h2><p>${n} élève(s) enregistré(s) sur cet appareil.</p>
   <div class="row wrap"><button class="btn pri" data-act="csv">Export CSV de la classe ${esc(V.pc||'')}</button><button class="btn" data-act="backup">Sauvegarde complète (JSON)</button><label class="btn">Restaurer une sauvegarde<input type="file" accept=".json,application/json" id="restore" hidden></label></div>
   <p class="muted small">Sur iPad, ajoute l’application à l’écran d’accueil : Safari efface sinon les données d’un site non ouvert pendant 7 jours. Fais une sauvegarde après chaque séance.</p>
   <h3>Code du mode prof</h3><div class="row"><input class="in w" id="newcode" value="${esc(DB.code)}"><button class="btn" data-act="setcode">Changer</button></div>
-  <h3>Effacer les données du prof</h3><button class="btn ghost" data-act="wipecls">Effacer la classe ${esc(V.pc||'')} de mes données</button></section>
+  <h3>Effacer les données du prof</h3><button class="btn ghost" data-act="wipecls">Effacer la classe ${esc(V.pc||'')} de mes données</button>
+  <p class="small">Cet appareil est déclaré <b>appareil du prof</b>. <button class="lnk small" data-act="devreset">Changer</button></p></section>`}
   <section class="card"><h2>Réglages de cette tablette (élèves)</h2>
+  <label class="tog"><input type="checkbox" id="optdark" ${DB.opts.dark?'checked':''}> Mode sombre (déconseillé en extérieur, au soleil)</label>
   <label class="tog"><input type="checkbox" id="optini" ${DB.opts.ini?'checked':''}> Nom de famille : <b>initiale seulement</b> à la création des binômes (moins de données personnelles)</label>
   <button class="btn sm" data-act="applyini">Réduire les noms déjà saisis à l’initiale</button>
   <h3>Fin de cycle : effacer une classe de cette tablette</h3>
@@ -13503,15 +13639,16 @@ function detailModal(k,sid){
   if(d.r8)lines.push(['Réalisation',d.r8.map(r=>r?(r.p||'·')+'/'+(r.r||'·'):'·').join(' · ')]);
   if(d.pfin)lines.push(['Projet final','100 m '+f(d.pfin.c100)+' · C1 '+f(d.pfin.c1)+' · C2 '+f(d.pfin.c2)+' · 250 '+f(d.pfin.ps)+' · 1’30 '+f(d.pfin.p130)+' m']);
   if(d.situe)lines.push(['Se situe','AFL2 degré '+f(d.situe.a2)+' · AFL3 degré '+f(d.situe.a3)]);
-  if(d.warm)lines.push(['Échauffement',d.warm.filter(Boolean).map(esc).join(' / ')+(d.rc?'<br>Récup : '+esc(d.rc)+(d.rc2?' / '+esc(d.rc2):''):'')]);
+  if(d.wc||d.warm)lines.push(['Échauffement',(d.wc||[]).map(c=>esc(WARM_NAME[c]||c)).join(', ')+(d.wx?' · '+esc(d.wx):'')+(d.warm?' '+d.warm.filter(Boolean).map(esc).join(' / '):'')+(d.rc?'<br>Récup : '+esc(d.rc)+(d.rc2?' / '+esc(d.rc2):''):'')]);
   if(d.aj)lines.push(['Ajustement',esc(d.aj)]);if(d.pe)lines.push(['Projets évaluation','3’ '+f(d.pe.v3)+' m · 1’30 '+f(d.pe.p)+' m · '+esc(d.pe.why||'')]);
+  if(d.ad)lines.unshift(['Présence','pratique adaptée (tolérances élargies)']);
   if(d.st)lines.unshift(['Présence',ST_TXT[d.st]+(d.mot?' · '+esc(d.mot):'')]);
   if(d.vj)lines.unshift(['VMA du jour','⚠ modifiée par l’élève : '+esc(d.vj)+' km/h (mesurée : '+fV(vma)+')']);
   if(d.cx)lines.unshift(['Coach remplaçant',esc(d.cx.n)+' · '+esc(WHY_TXT[d.cx.why]||'')]);
   modal(`<h2>${esc(st.prenom)} ${esc(st.nom)} · ${s.n}</h2><p class="muted small">VMA ${fV(vma)} km/h · projets tenus ${n?t+'/'+n:'–'}${a&&a.tot!=null?' · AFL1 '+a.tot+'/12':''}</p>
    <table class="tt l">${lines.map(l=>`<tr><th>${l[0]}</th><td>${l[1]}</td></tr>`).join('')}
    <tr><th>Coach a vu</th><td>${s.crit.map((c,i)=>(bl.cr&&bl.cr[i]?'☑ ':'☐ ')+esc(c)).join('<br>')}</td></tr>
-   <tr><th>Réussite / conseil</th><td>${esc(bl.reu||'–')} / ${esc(bl.con||'–')}</td></tr><tr><th>Sensations · FC</th><td>${[bl.so,bl.ja,bl.ch].map(x=>x||'·').join(' · ')} · ${esc(bl.fc||'–')}</td></tr>
+   <tr><th>Réussite / conseil</th><td>${esc(bl.reu||'–')} / ${esc(bl.con||'–')}</td></tr><tr><th>Effort · charge · FC</th><td>${bl.rpe!=null&&bl.rpe!==''?'RPE '+esc(bl.rpe)+' · '+chargeOf(d)+' UA':'–'} · ${esc(bl.fc||'–')}</td></tr><tr><th>Coach</th><td>pronostic ${esc(bl.pr||'–')}${pronoErr(s,d)!=null?' (±'+R(pronoErr(s,d))+' %)':''} · conseil utile : ${bl.aide==='1'?'oui':bl.aide==='0'?'non':'–'}</td></tr>
    <tr><th>Rôle · prochaine fois</th><td>${esc(bl.role||'–')} · ${esc(bl.nx||'')}</td></tr></table><div class="row wrap"><button class="btn" data-rest="${esc(k)}">↺ QR de restauration du binôme</button><button class="btn" data-act="closem">Fermer</button></div>`);
 }
 function restoreQrModal(k){const st=PDB.students[k];const bin=st.bin||(k.startsWith('id:')?k.slice(3).split('|')[0]:null);
@@ -13545,7 +13682,7 @@ async function startScan(onRaw){
     if(!raw)return;const now=Date.now();if(raw===SCAN.last&&now-SCAN.lastT<4000)return;SCAN.last=raw;SCAN.lastT=now;(SCAN.on||handleRaw)(raw)},250);
 }
 function stopScan(){if(SCAN.timer)clearInterval(SCAN.timer);SCAN.timer=null;if(SCAN.stream)SCAN.stream.getTracks().forEach(t=>t.stop());SCAN.stream=null;const v=$('#vid');if(v){v.srcObject=null;v.classList.remove('on')}}
-function handleRaw(raw){const log=$('#scanlog');try{raw=decodeUtf8(raw);const msg=profAdd(raw);beep();if(log)log.innerHTML='✓ '+esc(msg)+'<br>'+(log.innerHTML||'');toast('✓ '+msg)}catch(e){if(log)log.innerHTML='✗ '+esc(e.message)+'<br>'+log.innerHTML}}
+function handleRaw(raw){const log=$('#scanlog');try{raw=decodeUtf8(raw);const res=profAddAny(raw);if(res&&res.partial){if(log)log.innerHTML='… '+esc(res.partial)+'<br>'+(log.innerHTML||'');return}const msg=res;beep();if(log)log.innerHTML='✓ '+esc(msg)+'<br>'+(log.innerHTML||'');toast('✓ '+msg)}catch(e){if(log)log.innerHTML='✗ '+esc(e.message)+'<br>'+log.innerHTML}}
 function decodeUtf8(s){try{return /Ã|Â/.test(s)?decodeURIComponent(escape(s)):s}catch(e){return s}}
 let AC=null;
 function beep(f,ms){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f||880;g.gain.value=.25;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(ms||150)/1000)}catch(e){}}
@@ -13558,7 +13695,7 @@ document.addEventListener('click',e=>{
   if(ds.hcy!==undefined){DB.opts.hcy=ds.hcy;save();return go({v:'home',hcy:ds.hcy,cls:''})}
   if(ds.cls!==undefined)return go({cls:ds.cls});
   if(ds.open){const b=DB.binomes.find(x=>x.id===ds.open);return go({v:'bin',bin:ds.open,hcy:cyOf(b)})}
-  if(ds.sess)return go({v:'sess',sid:ds.sess,ri:0,presOpen:false});
+  if(ds.sess)return go({v:'sess',sid:ds.sess,ri:0,presOpen:false,cur:0});
   if(ds.ri)return go({ri:+ds.ri});
   if(ds.ncy){const keep=[0,1].map(i=>({p:$('#np'+i).value,n:$('#nn'+i).value,x:(document.querySelector(`#nx${i} .on`)||{dataset:{}}).dataset.v}));const cl=$('#ncl').value;V.ncy=ds.ncy;render();
     $('#ncl').value=cl;keep.forEach((k,i)=>{$('#np'+i).value=k.p;$('#nn'+i).value=k.n;if(k.x){const c=document.querySelector(`#nx${i} [data-v="${k.x}"]`);c&&c.classList.add('on')}});return}
@@ -13571,6 +13708,9 @@ document.addEventListener('click',e=>{
     if(getPath(d,ds.set)===val&&!ds.set.startsWith('bl.cr'))val='';setPath(d,ds.set,val);fixP(d);saveS();return keepScroll(render)}
   if(ds.tog&&V.v==='sess'){const d=curD();const a=d[ds.tog]=d[ds.tog]||[];const i=a.indexOf(ds.v);if(i>=0)a.splice(i,1);else a.push(ds.v);saveS();return keepScroll(render)}
   if(ds.sugg!==undefined&&V.v==='sess'){const d=curD();const c=getPath(d,'bl.con')||'';if(c.includes(ds.sugg))setPath(d,'bl.con',c.replace(ds.sugg,'').replace(/^\s*[;·]\s*|\s*[;·]\s*$/g,'').replace(/\s*;\s*;\s*/,' ; '));else setPath(d,'bl.con',(c?c.trim()+' ; ':'')+ds.sugg);saveS();return keepScroll(render)}
+  if(ds.cur!==undefined){V.cur=+ds.cur;render();const st=$('.steps');if(st)window.scrollTo(0,Math.max(0,st.getBoundingClientRect().top+window.scrollY-70));return}
+  if(ds.chp!==undefined){const p=CPRE[+ds.chp];Object.assign(CH,{w:p[1],r:p[2],n:p[3],mid:p[4]});return render()}
+  if(ds.ad!==undefined&&V.v==='sess'){const r=curBin().runners[+ds.ad],d=sd(r,V.sid);if(d.ad)delete d.ad;else d.ad='1';saveS();return keepScroll(render)}
   if(ds.live){const [k,key]=ds.live.split('|');return liveOpen(k,key)}
   if(ds.lv)return liveAct(ds.lv);
   if(ds.lvp){const [tag,x]=ds.lvp.split('|');return liveTap(tag,+x)}
@@ -13603,8 +13743,17 @@ document.addEventListener('click',e=>{
     b.classe=cl;rs.forEach((r,i)=>{delete b.runners[i].ph;Object.assign(b.runners[i],r)});save();toast('Noms corrigés');return go({v:'bin'})}
   if(a==='delbin')return modal(`<h2>Supprimer ce binôme ?</h2>${unsentOf(curBin())?`<p class="warn">⚠ ${unsentOf(curBin())} séance(s) jamais scannée(s) par le prof seront perdues.</p>`:'<p>Toutes les séances ont été envoyées au prof.</p>'}<div class="row"><button class="btn ghost" data-act="delok">Supprimer</button><button class="btn" data-act="closem">Annuler</button></div>`);
   if(a==='delok'){DB.binomes=DB.binomes.filter(b=>b.id!==V.bin);save();closeModal();return go({v:'home'})}
+  if(a==='onetog'){DB.opts.one=!oneMode();save();return keepScroll(render)}
   if(a==='presopen'){V.presOpen=true;return keepScroll(render)}
   if(a==='presclose'){V.presOpen=false;return keepScroll(render)}
+  if(a==='chgo'){beep(700,60);return chStart()}
+  if(a==='chpause'){const r=CH.run;if(!r)return;if(r.paused){r.end=Date.now()+r.left*1000;r.paused=false}else r.paused=true;return render()}
+  if(a==='chstop'){chStop();return render()}
+  if(a==='qrall'){const b=curBin();const [L,pl]=catchupPayload(b);if(!L.length)return toast('Tout est déjà envoyé.');markSent(b,L);render();
+    return animQr('Rattrapage · '+L.map(s=>s.n).join(', '),esc(b.runners[0].prenom)+' & '+esc(b.runners[1].prenom)+' · '+esc(b.classe)+' · à montrer au prof',pl.length>600?chunkPayload(pl,600):[pl])}
+  if(a==='shareall'){const b=curBin();const [L,pl]=catchupPayload(b);if(!L.length)return toast('Tout est déjà envoyé.');const name='carnet_'+norm(b.classe+'_'+b.runners[0].prenom+'_'+b.runners[1].prenom).replace(/\W+/g,'_')+'.txt';
+    const f=new File([pl],name,{type:'text/plain'});const ok=()=>{markSent(b,L);render();toast('Fichier envoyé')};
+    if(navigator.canShare&&navigator.canShare({files:[f]}))return navigator.share({files:[f],title:'Carnet demi-fond'}).then(ok).catch(()=>{});dl(name,pl,'text/plain');return ok()}
   if(a==='qr')return qrModal(V.sid);
   if(a==='chcoach')return coachModal();
   if(a==='calc')return openCalc();
@@ -13617,7 +13766,12 @@ document.addEventListener('click',e=>{
   if(a==='closem')return closeModal();
   if(a==='reload')return location.reload();
   if(a==='prof')return modal(`<h2>Mode prof</h2><input class="in" id="pcode" type="password" inputmode="numeric" placeholder="Code"><div class="row"><button class="btn pri" data-act="profok">Entrer</button><button class="btn" data-act="closem">Annuler</button></div>`);
-  if(a==='profok'){if($('#pcode').value!==DB.code)return toast('Code incorrect');closeModal();return go({v:'prof'})}
+  if(a==='profok'){if($('#pcode').value!==DB.code)return toast('Code incorrect');closeModal();
+    if(!DB.opts.dev)return modal(`<h2>Quel est cet appareil ?</h2><p>Les données de toute la classe ne doivent être stockées que sur <b>un seul appareil : celui du prof</b>. Jamais sur une tablette d’élève.</p>
+      <div class="row wrap"><button class="btn pri" data-act="devprof">C’est mon appareil (prof)</button><button class="btn" data-act="devstu">C’est une tablette d’élève</button></div><p class="muted small">Sur une tablette d’élève, le mode prof ne donne accès qu’aux réglages de la tablette et au chrono.</p>`);
+    return go({v:'prof',ptab:DB.opts.dev==='stu'&&!['data','chrono'].includes(V.ptab)?'data':V.ptab})}
+  if(a==='devprof'||a==='devstu'){DB.opts.dev=a==='devprof'?'prof':'stu';save();closeModal();return go({v:'prof',ptab:a==='devprof'?'scan':'data'})}
+  if(a==='devreset'){delete DB.opts.dev;save();return go({v:'home'})}
   if(a==='scan')return startScan(handleRaw);
   if(a==='stopscan')return stopScan();
   if(a==='paste'){handleRaw($('#paste').value);$('#paste').value='';return}
@@ -13641,10 +13795,18 @@ document.addEventListener('input',e=>{const el=e.target;
 });
 document.addEventListener('change',e=>{const el=e.target;
   if((el.dataset.p&&V.v==='sess')||el.dataset.vm!==undefined||el.dataset.af)keepScroll(render);
+  if(['chw','chr','chn'].includes(el.id)){const v=Math.max(el.id==='chr'?0:1,R(num(el.value)||0));CH[{chw:'w',chr:'r',chn:'n'}[el.id]]=v;return render()}
+  if(el.id==='chmid'){CH.mid=el.checked?1:0;return}if(el.id==='chvoice'){CH.voice=el.checked;return}
+  if(el.id==='optdark'){DB.opts.dark=el.checked;save();document.documentElement.dataset.theme=el.checked?'dark':'light';return}
   if(el.id==='optini'){DB.opts.ini=el.checked;save();toast(el.checked?'Initiale seulement pour les nouveaux binômes':'Nom complet')}
   if(el.id==='qrphoto'&&el.files[0])decodePhoto(el.files[0]);
+  if(el.id==='qrfile')[...el.files].forEach(f=>{const r=new FileReader();r.onload=()=>handleRaw(r.result);r.readAsText(f)});
   if(el.id==='restore'&&el.files[0]){const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);if(!o.students)throw 0;PDB=Object.assign({students:{},stars:{}},o);psave();toast('Sauvegarde restaurée');render()}catch(x){toast('Fichier invalide')}};r.readAsText(el.files[0])}
 });
+/* balayage gauche / droite pour changer d'étape (mode une étape à la fois) */
+let SW=null;document.addEventListener('touchstart',e=>{if(V.v!=='sess'||!oneMode()||e.touches.length!==1||e.target.closest('.tw,input,textarea,.stp,.reps,#modal'))return SW=null;SW={x:e.touches[0].clientX,y:e.touches[0].clientY}},{passive:true});
+document.addEventListener('touchend',e=>{if(!SW)return;const t=e.changedTouches[0],dx=t.clientX-SW.x,dy=t.clientY-SW.y;SW=null;if(Math.abs(dx)<80||Math.abs(dy)>50)return;
+  const n=stepList(SBY[V.sid]).length;const c=Math.max(0,Math.min(n-1,(V.cur||0)+(dx<0?1:-1)));if(c!==V.cur){V.cur=c;keepScroll(render)}},{passive:true});
 $('#modal').addEventListener('click',e=>{if(e.target.id==='modal'&&!(LIVE&&LIVE.t0&&LIVE.stage!=='done'))closeModal()});
 /* ---------- hors ligne et mises à jour ---------- */
 function showUpd(){const u=$('#upd');if(!u)return;u.innerHTML=`Nouvelle version du carnet installée. <button class="btn sm" data-act="reload">Recharger</button>`;u.classList.add('on')}
