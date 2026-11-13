@@ -1,7 +1,7 @@
 /* Hors ligne : l'application est mise en cache à la 1re ouverture (Wi-Fi), puis fonctionne sans réseau. */
-const C='carnet-numerique-demi-fond-v1';
+const C='carnet-numerique-demi-fond-v1.0';
 // Toutes les applis partagent le même stockage (même adresse github.io) : on n'efface QUE les anciennes versions de CETTE appli.
-const MES_CACHES=/^(?:carnet\-numerique\-demi\-fond\-v|carnet\-df\-v)\d+$/;
+const MES_CACHES=/^(?:carnet\-numerique\-demi\-fond\-v|carnet\-df\-v)\d+(?:\.\d+)?$/;
 // Wi-Fi faible au gymnase : si le réseau ne répond pas en 3 s, on ouvre la copie gardée sur l'appareil.
 const sous3s=p=>{p.catch(()=>{});return Promise.race([p,new Promise((_,non)=>setTimeout(()=>non(new Error('réseau lent')),3000))])};const FILES=['./','eps-maj.js','index.html','index-old.html','manifest.webmanifest','icon-192.png', 'icon-180.png', 'icon-32.png','icon-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
