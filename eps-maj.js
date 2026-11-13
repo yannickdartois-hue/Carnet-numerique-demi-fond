@@ -46,3 +46,43 @@
     setInterval(verifier,30*60*1000);
   }).catch(function(){});
 })();
+
+/* ---------------------------------------------------------------------
+   Numéro de version, lisible, en haut à droite (ex. « v26 ») : 13 px sur une pastille claire (13/11/2026 : l'ancien 10 px gris était illisible).
+   Version réellement installée = nom du cache de l'appli (marche hors
+   ligne) ; à défaut, version lue dans sw.js. Masqué à l'impression,
+   ne gêne aucun bouton (aucun clic).
+   --------------------------------------------------------------------- */
+(function(){
+  'use strict';
+  if(window.__epsVersion)return;window.__epsVersion=true;
+  var cle='eps-version:'+location.pathname.replace(/[^\/]*$/,'');
+  function montrer(v){
+    if(!v)return;
+    if(!document.body){setTimeout(function(){montrer(v)},200);return}
+    var e=document.getElementById('eps-version');
+    if(!e){
+      e=document.createElement('div');e.id='eps-version';e.setAttribute('aria-hidden','true');
+      e.style.cssText='position:fixed;top:max(2px,env(safe-area-inset-top));right:4px;z-index:2147482000;font:700 13px/1.2 system-ui,Arial,sans-serif;color:#1f2937;background:rgba(255,255,255,.88);border:1px solid rgba(31,41,55,.25);border-radius:7px;padding:1px 6px;pointer-events:none';
+      var st=document.createElement('style');st.textContent='@media print{#eps-version{display:none}}';document.head.appendChild(st);
+      document.body.appendChild(e);
+    }
+    e.textContent=v;
+  }
+  function lire(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  function ecrire(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  function depuisCache(prefixe){
+    if(!prefixe||!window.caches)return Promise.resolve(null);
+    return caches.keys().then(function(ks){
+      var best=null;
+      ks.forEach(function(k){if(k.indexOf(prefixe)===0){var m=k.slice(prefixe.length).match(/^v?(\d+)/);if(m&&(best===null||+m[1]>best))best=+m[1]}});
+      return best===null?null:'v'+best;
+    }).catch(function(){return null});
+  }
+  var memo=lire(cle);if(memo)montrer(memo.split('|')[1]);
+  depuisCache(memo&&memo.split('|')[0]).then(function(v){if(v)montrer(v)});
+  fetch('sw.js',{cache:'no-store'}).then(function(r){return r.ok?r.text():null}).then(function(t){
+    var m=t&&t.match(/['"]([A-Za-z0-9_.\-]*?)(v\d+)['"]/);if(!m)return;
+    depuisCache(m[1]).then(function(v){v=v||m[2];ecrire(cle,m[1]+'|'+v);montrer(v)});
+  }).catch(function(){});
+})();
